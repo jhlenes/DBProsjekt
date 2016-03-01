@@ -29,17 +29,38 @@ public class DBConnection
         return connection;
     }
 
-    public void disconnect()
+    public static void closeConnection(Connection connection)
     {
         try
         {
             connection.close();
         } catch (SQLException e)
         {
-            // Whatever, we no longer care about the database
+            // Whatever
         }
     }
 
+    public static void closeStatement(Statement statement)
+    {
+        try
+        {
+            statement.close();
+        } catch (SQLException e)
+        {
+            // Whatever
+        }
+    }
+
+    public static void closeResultSet(ResultSet resultSet)
+    {
+        try
+        {
+            resultSet.close();
+        } catch (SQLException e)
+        {
+            // Whatever
+        }
+    }
 
     public static void main(String[] args) throws SQLException
     {
