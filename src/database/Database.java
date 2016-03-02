@@ -65,6 +65,26 @@ public class Database
         }
     }
 
+    public List<Ovelse> getOvelser()
+    {
+        return ovelseManager.getOvelser();
+    }
+
+    public Ovelse getOvelse(String navn)
+    {
+        return ovelseManager.getOvelse(navn);
+    }
+
+    public boolean addOvelse(String navn, String beskrivelse)
+    {
+        return ovelseManager.addOvelse(navn, beskrivelse);
+    }
+
+    public boolean deleteOvelse(int ovelseNr)
+    {
+        return ovelseManager.deleteOvelse(ovelseNr);
+    }
+
     public static void main(String[] args) throws SQLException
     {
         Database database = new Database();
@@ -94,10 +114,5 @@ public class Database
         connection.close();
         statement.close();
         res.close();
-    }
-
-    public List<Ovelse> getOvelser()
-    {
-        return ovelseManager.getOvelser();
     }
 }

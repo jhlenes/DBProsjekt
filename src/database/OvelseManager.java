@@ -17,7 +17,7 @@ public class OvelseManager
         this.connection = connection;
     }
 
-    public boolean lagOvelse(String navn, String beskrivelse)
+    public boolean addOvelse(String navn, String beskrivelse)
     {
         Statement statement = null;
         try
@@ -35,7 +35,7 @@ public class OvelseManager
         }
     }
 
-    public boolean endreOvelse(int ovelseNr, String nyttNavn, String nyBeskrivelse)
+    public boolean editOvelse(int ovelseNr, String nyttNavn, String nyBeskrivelse)
     {
         Statement statement = null;
         try
@@ -55,7 +55,7 @@ public class OvelseManager
         }
     }
 
-    public boolean endreOvelse(String navn, String nyttNavn, String nyBeskrivelse)
+    public boolean editOvelse(String gammeltNavn, String nyttNavn, String nyBeskrivelse)
     {
         Statement statement = null;
         try
@@ -63,7 +63,7 @@ public class OvelseManager
             statement = connection.createStatement();
             statement.executeUpdate("UPDATE Ovelse " +
                     "SET navn = '" + nyttNavn + "', beskrivelse = '" + nyBeskrivelse + "' " +
-                    "WHERE navn = '" + navn + "';");
+                    "WHERE navn = '" + gammeltNavn + "';");
             return true;
         } catch (SQLException e)
         {
@@ -75,7 +75,7 @@ public class OvelseManager
         }
     }
 
-    public boolean slettOvelse(int ovelseNr)
+    public boolean deleteOvelse(int ovelseNr)
     {
         Statement statement = null;
         try
@@ -93,7 +93,7 @@ public class OvelseManager
         }
     }
 
-    public boolean slettOvelse(String navn)
+    public boolean deleteOvelse(String navn)
     {
         Statement statement = null;
         try
@@ -111,18 +111,24 @@ public class OvelseManager
         }
     }
 
-    public ResultSet getOvelse(String navn)
+    public Ovelse getOvelse(String navn)
     {
         Statement statement = null;
         try
         {
             statement = connection.createStatement();
-            return statement.executeQuery("SELECT * FROM Ovelse WHERE navn = '" + navn + "';");
+            ResultSet res = statement.executeQuery("SELECT * FROM Ovelse WHERE navn = '" + navn + "';");
+            if (res.next())
+            {
+                int ovelseNr = res.getInt(1);
+                String beskrivelse = res.getString(3);
+                return new Ovelse(ovelseNr, navn, beskrivelse);
+            }
         } catch (SQLException e)
         {
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
 
     public List<Ovelse> getOvelser()
