@@ -1,14 +1,16 @@
-package connection;
+package database;
 
 import java.sql.*;
+import java.util.List;
 import java.util.Properties;
 
-public class DBConnection
+public class Database
 {
 
     private Connection connection;
+    private OvelseManager ovelseManager;
 
-    public DBConnection()
+    public Database()
     {
         try
         {
@@ -17,6 +19,7 @@ public class DBConnection
             p.put("user", "janhle_prosjekt");
             p.put("password", "#CantGuessThis");
             connection = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no:3306/janhle_treningsdagbok", p);
+            ovelseManager = new OvelseManager(connection);
 
         } catch (Exception e)
         {
@@ -64,8 +67,8 @@ public class DBConnection
 
     public static void main(String[] args) throws SQLException
     {
-        DBConnection dbConnection = new DBConnection();
-        Connection connection = dbConnection.getConnection();
+        Database database = new Database();
+        Connection connection = database.getConnection();
         Statement statement = connection.createStatement();
 
         // Delete
@@ -93,4 +96,8 @@ public class DBConnection
         res.close();
     }
 
+    public List<Ovelse> getOvelser()
+    {
+        return ovelseManager.getOvelser();
+    }
 }
