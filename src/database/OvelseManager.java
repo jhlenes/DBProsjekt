@@ -17,107 +17,59 @@ public class OvelseManager
         this.connection = connection;
     }
 
-    public boolean addOvelse(String navn, String beskrivelse)
+    private boolean updateSQL(String sql)
     {
-        Statement statement = null;
-        try
+        try (Statement statement = connection.createStatement())
         {
-            statement = connection.createStatement();
-            statement.executeUpdate("INSERT INTO Ovelse VALUES (NULL, '" + navn + "', '" + beskrivelse + "');");
+            statement.executeUpdate(sql);
             return true;
         } catch (SQLException e)
         {
             e.printStackTrace();
             return false;
-        } finally
-        {
-            Database.closeStatement(statement);
         }
+    }
+
+    public boolean addOvelse(String navn, String beskrivelse)
+    {
+        String sql = "INSERT INTO Ovelse VALUES (NULL, '" + navn + "', '" + beskrivelse + "');";
+        return updateSQL(sql);
     }
 
     public boolean editOvelse(int ovelseNr, String nyttNavn, String nyBeskrivelse)
     {
-        Statement statement = null;
-        try
-        {
-            statement = connection.createStatement();
-            statement.executeUpdate("UPDATE Ovelse " +
-                    "SET navn = '" + nyttNavn + "', beskrivelse = '" + nyBeskrivelse + "' " +
-                    "WHERE ovelseNr = " + ovelseNr + ";");
-            return true;
-        } catch (SQLException e)
-        {
-            e.printStackTrace();
-            return false;
-        } finally
-        {
-            Database.closeStatement(statement);
-        }
+        String sql = "UPDATE Ovelse " +
+                "SET navn = '" + nyttNavn + "', beskrivelse = '" + nyBeskrivelse + "' " +
+                "WHERE ovelseNr = " + ovelseNr + ";";
+        return updateSQL(sql);
     }
 
     public boolean editOvelse(String gammeltNavn, String nyttNavn, String nyBeskrivelse)
     {
-        Statement statement = null;
-        try
-        {
-            statement = connection.createStatement();
-            statement.executeUpdate("UPDATE Ovelse " +
-                    "SET navn = '" + nyttNavn + "', beskrivelse = '" + nyBeskrivelse + "' " +
-                    "WHERE navn = '" + gammeltNavn + "';");
-            return true;
-        } catch (SQLException e)
-        {
-            e.printStackTrace();
-            return false;
-        } finally
-        {
-            Database.closeStatement(statement);
-        }
+        String sql = "UPDATE Ovelse " +
+                "SET navn = '" + nyttNavn + "', beskrivelse = '" + nyBeskrivelse + "' " +
+                "WHERE navn = '" + gammeltNavn + "';";
+        return updateSQL(sql);
     }
 
     public boolean deleteOvelse(int ovelseNr)
     {
-        Statement statement = null;
-        try
-        {
-            statement = connection.createStatement();
-            statement.executeUpdate("DELETE FROM Ovelse WHERE ovelseNr = " + ovelseNr + ";");
-            return true;
-        } catch (SQLException e)
-        {
-            e.printStackTrace();
-            return false;
-        } finally
-        {
-            Database.closeStatement(statement);
-        }
+        String sql = "DELETE FROM Ovelse WHERE ovelseNr = " + ovelseNr + ";";
+        return updateSQL(sql);
     }
 
     public boolean deleteOvelse(String navn)
     {
-        Statement statement = null;
-        try
-        {
-            statement = connection.createStatement();
-            statement.executeUpdate("DELETE FROM Ovelse WHERE navn = " + navn + ";");
-            return true;
-        } catch (SQLException e)
-        {
-            e.printStackTrace();
-            return false;
-        } finally
-        {
-            Database.closeStatement(statement);
-        }
+        String sql = "DELETE FROM Ovelse WHERE navn = " + navn + ";";
+        return updateSQL(sql);
     }
 
     public Ovelse getOvelse(String navn)
     {
-        Statement statement = null;
-        try
+        String sql = "SELECT * FROM Ovelse WHERE navn = '" + navn + "';";
+        try (Statement statement = connection.createStatement())
         {
-            statement = connection.createStatement();
-            ResultSet res = statement.executeQuery("SELECT * FROM Ovelse WHERE navn = '" + navn + "';");
+            ResultSet res = statement.executeQuery(sql);
             if (res.next())
             {
                 int ovelseNr = res.getInt(1);
@@ -134,7 +86,6 @@ public class OvelseManager
     public List<Ovelse> getOvelser()
     {
         List<Ovelse> ovelser = new ArrayList<>();
-
         String sql = "SELECT * FROM Ovelse;";
         try (ResultSet res = connection.createStatement().executeQuery(sql))
         {
@@ -149,7 +100,6 @@ public class OvelseManager
         {
             e.printStackTrace();
         }
-
         return ovelser;
     }
 

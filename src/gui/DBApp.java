@@ -7,11 +7,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 
@@ -27,9 +31,9 @@ public class DBApp extends Application
     private ListView<Ovelse> ovelseListView;
     private ObservableList<Ovelse> ovelseObservableList;
 
-    private Button leggTil;
-    private Button endre;
-    private Button slett;
+    private Button leggTil = new Button("Legg til");
+    private Button endre = new Button("Endre");
+    private Button slett = new Button("Slett");
 
     public static void main(String[] args)
     {
@@ -48,7 +52,6 @@ public class DBApp extends Application
         GridPane addLayout = setupAddScene();
         addScene = new Scene(addLayout, 500, 500);
 
-
         // Setup Window
         window = primaryStage;
         window.setTitle("Treningsdagbok");
@@ -58,19 +61,14 @@ public class DBApp extends Application
 
     private GridPane setupOvelseScene()
     {
-        GridPane layout = setupLayout();
-        setupOvelseListView(layout);
-        setupButtons(layout);
-        return layout;
-    }
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(25, 25, 25, 25));
 
-    private GridPane setupLayout()
-    {
-        GridPane layout = new GridPane();
-        layout.setHgap(10);
-        layout.setVgap(10);
-        layout.setPadding(new Insets(25, 25, 25, 25));
-        return layout;
+        setupOvelseListView(grid);
+        setupButtons(grid);
+        return grid;
     }
 
     private void setupOvelseListView(GridPane layout)
@@ -78,64 +76,85 @@ public class DBApp extends Application
         List<Ovelse> ovelser = database.getOvelser();
         ovelseObservableList = FXCollections.observableArrayList(ovelser);
         ovelseListView = new ListView<>(ovelseObservableList);
-        ovelseListView.setMaxHeight(Control.USE_PREF_SIZE);
         layout.add(ovelseListView, 0, 0, 3, 4);
     }
 
-    private void setupButtons(GridPane layout)
+    private void setupButtons(GridPane grid)
     {
-        leggTil = new Button("Legg til");
         leggTil.setOnAction(e -> window.setScene(addScene));
-        endre = new Button("Endre");
-        slett = new Button("Slett");
+
         slett.setOnAction(e -> {
             Ovelse ovelse = ovelseListView.getSelectionModel().getSelectedItem();
-            database.deleteOvelse(ovelse.getOvelseNr());
-            ovelseObservableList.remove(ovelse);
+            if (database.deleteOvelse(ovelse.getOvelseNr()))
+            {
+                ovelseObservableList.remove(ovelse);
+            }
         });
 
+        // Let buttons grow, otherwise they will be different sizes based
+        // on the length of the label
         leggTil.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         endre.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         slett.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
         TilePane tileButtons = new TilePane(Orientation.HORIZONTAL);
-
-        tileButtons.setPadding(new Insets(20, 10, 20, 10));
-        tileButtons.setHgap(10.0);
-        tileButtons.setVgap(10.0);
+        tileButtons.setPadding(new Insets(20, 10, 20, 0));
+        tileButtons.setHgap(10);
+        tileButtons.setVgap(10);
         tileButtons.getChildren().addAll(leggTil, endre, slett);
 
-        layout.add(tileButtons, 0, 4, 3, 1);
+        grid.add(tileButtons, 0, 4, 3, 1);
     }
 
     private GridPane setupAddScene()
     {
-        GridPane layout = setupLayout();
-        setupEditMenu(layout);
-        return layout;
-    }
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(12);
 
-    private void setupEditMenu(GridPane layout)
-    {
-        Label navnLabel = new Label("Navn:");
-        Label beskrivelseLabel = new Label("Beskrivelse:");
-        TextField navnTF = new TextField();
-        TextField beskrivelseTF = new TextField();
+        ColumnConstraints column1 = new ColumnConstraints();
+        column1.setHalignment(HPos.RIGHT);
+        grid.getColumnConstraints().add(column1);
 
-        Button send = new Button("Send");
-        send.setOnAction(event -> {
-            database.addOvelse(navnTF.getText(), beskrivelseTF.getText());
-            ovelseObservableList.add(database.getOvelse(navnTF.getText()));
-            navnTF.clear();
-            beskrivelseTF.clear();
+        ColumnConstraints column2 = new ColumnConstraints();
+        column2.setHalignment(HPos.LEFT);
+        grid.getColumnConstraints().add(column2);
+
+        Label labelNavn = new Label("Navn:");
+        TextField tfNavn = new TextField();
+        Label labelBeskrivelse = new Label("Beskrivelse:");
+        TextField tfBeskrivelse = new TextField();
+
+        Button leggTil = new Button("Legg til");
+        leggTil.setOnAction(event -> {     // Update database and listview
+            if (database.addOvelse(tfNavn.getText(), tfBeskrivelse.getText()))
+            {
+                ovelseObservableList.add(database.getOvelse(tfNavn.getText()));
+                tfNavn.clear();
+                tfBeskrivelse.clear();
+                window.setScene(ovelserScene);
+            }
+        });
+        Button avbryt = new Button("Avbryt");
+        avbryt.setOnAction(event -> {   // Go back to previous screen
+            tfNavn.clear();
+            tfBeskrivelse.clear();
             window.setScene(ovelserScene);
         });
 
-        layout.add(navnLabel, 0, 0);
-        layout.add(navnTF, 1, 0);
-        layout.add(beskrivelseLabel, 0, 1);
-        layout.add(beskrivelseTF, 1, 1);
-        layout.add(send, 1, 2);
+        HBox hbButtons = new HBox();
+        hbButtons.setSpacing(10.0);
+        hbButtons.setAlignment(Pos.CENTER_LEFT);
+        hbButtons.getChildren().addAll(leggTil, avbryt);
+
+        grid.add(labelNavn, 0, 0);
+        grid.add(tfNavn, 1, 0);
+        grid.add(labelBeskrivelse, 0, 1);
+        grid.add(tfBeskrivelse, 1, 1);
+        grid.add(hbButtons, 1, 2, 1, 1);
+
+        return grid;
     }
 
 }
