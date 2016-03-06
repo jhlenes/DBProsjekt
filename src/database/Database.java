@@ -1,7 +1,6 @@
 package database;
 
 import java.sql.*;
-import java.util.List;
 import java.util.Properties;
 
 public class Database
@@ -32,57 +31,9 @@ public class Database
         return connection;
     }
 
-    public static void closeConnection(Connection connection)
+    public OvelseManager getOvelseManager()
     {
-        try
-        {
-            connection.close();
-        } catch (SQLException e)
-        {
-            // Whatever
-        }
-    }
-
-    public static void closeStatement(Statement statement)
-    {
-        try
-        {
-            statement.close();
-        } catch (SQLException e)
-        {
-            // Whatever
-        }
-    }
-
-    public static void closeResultSet(ResultSet resultSet)
-    {
-        try
-        {
-            resultSet.close();
-        } catch (SQLException e)
-        {
-            // Whatever
-        }
-    }
-
-    public List<Ovelse> getOvelser()
-    {
-        return ovelseManager.getOvelser();
-    }
-
-    public Ovelse getOvelse(String navn)
-    {
-        return ovelseManager.getOvelse(navn);
-    }
-
-    public boolean addOvelse(String navn, String beskrivelse)
-    {
-        return ovelseManager.addOvelse(navn, beskrivelse);
-    }
-
-    public boolean deleteOvelse(int ovelseNr)
-    {
-        return ovelseManager.deleteOvelse(ovelseNr);
+        return ovelseManager;
     }
 
     public static void main(String[] args) throws SQLException

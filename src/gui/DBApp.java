@@ -1,12 +1,11 @@
 package gui;
 
 import database.Database;
-import database.Ovelse;
+import treningsdagbok.Ovelse;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
@@ -67,25 +66,31 @@ public class DBApp extends Application
         grid.setPadding(new Insets(25, 25, 25, 25));
 
         setupOvelseListView(grid);
-        setupButtons(grid);
+        setupButtonRow(grid);
         return grid;
     }
 
     private void setupOvelseListView(GridPane layout)
     {
-        List<Ovelse> ovelser = database.getOvelser();
+        List<Ovelse> ovelser = database.getOvelseManager().getOvelser();
         ovelseObservableList = FXCollections.observableArrayList(ovelser);
         ovelseListView = new ListView<>(ovelseObservableList);
         layout.add(ovelseListView, 0, 0, 3, 4);
     }
 
-    private void setupButtons(GridPane grid)
+    private void setupButtonRow(GridPane grid)
     {
         leggTil.setOnAction(e -> window.setScene(addScene));
 
+        endre.setOnAction(e -> {
+            Ovelse ovelse = ovelseListView.getSelectionModel().getSelectedItem();
+            Scene scene = new Scene(setupEditScene(ovelse), 500, 500);
+            window.setScene(scene);
+        });
+
         slett.setOnAction(e -> {
             Ovelse ovelse = ovelseListView.getSelectionModel().getSelectedItem();
-            if (database.deleteOvelse(ovelse.getOvelseNr()))
+            if (database.getOvelseManager().deleteOvelse(ovelse.getOvelseNr()))
             {
                 ovelseObservableList.remove(ovelse);
             }
@@ -128,9 +133,9 @@ public class DBApp extends Application
 
         Button leggTil = new Button("Legg til");
         leggTil.setOnAction(event -> {     // Update database and listview
-            if (database.addOvelse(tfNavn.getText(), tfBeskrivelse.getText()))
+            if (database.getOvelseManager().addOvelse(tfNavn.getText(), tfBeskrivelse.getText()))
             {
-                ovelseObservableList.add(database.getOvelse(tfNavn.getText()));
+                ovelseObservableList.add(database.getOvelseManager().getOvelse(tfNavn.getText()));
                 tfNavn.clear();
                 tfBeskrivelse.clear();
                 window.setScene(ovelserScene);
@@ -147,6 +152,61 @@ public class DBApp extends Application
         hbButtons.setSpacing(10.0);
         hbButtons.setAlignment(Pos.CENTER_LEFT);
         hbButtons.getChildren().addAll(leggTil, avbryt);
+
+        grid.add(labelNavn, 0, 0);
+        grid.add(tfNavn, 1, 0);
+        grid.add(labelBeskrivelse, 0, 1);
+        grid.add(tfBeskrivelse, 1, 1);
+        grid.add(hbButtons, 1, 2, 1, 1);
+
+        return grid;
+    }
+
+    private GridPane setupEditScene(Ovelse ovelse)
+    {
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(12);
+
+        ColumnConstraints column1 = new ColumnConstraints();
+        column1.setHalignment(HPos.RIGHT);
+        grid.getColumnConstraints().add(column1);
+
+        ColumnConstraints column2 = new ColumnConstraints();
+        column2.setHalignment(HPos.LEFT);
+        grid.getColumnConstraints().add(column2);
+
+        Label labelNavn = new Label("Navn:");
+        TextField tfNavn = new TextField(ovelse.getNavn());
+        Label labelBeskrivelse = new Label("Beskrivelse:");
+        TextField tfBeskrivelse = new TextField(ovelse.getBeskrivelse());
+
+        Button endre = new Button("Endre");
+        endre.setOnAction(event -> {     // Update database and listview
+            String nyttNavn = tfNavn.getText();
+            String nyBeskrivelse = tfBeskrivelse.getText();
+            if (database.getOvelseManager().editOvelse(ovelse.getOvelseNr(), nyttNavn, nyBeskrivelse))
+            {
+                ovelse.setNavn(nyttNavn);
+                ovelse.setBeskrivelse(nyBeskrivelse);
+                ovelseListView.refresh();
+                tfNavn.clear();
+                tfBeskrivelse.clear();
+                window.setScene(ovelserScene);
+            }
+        });
+        Button avbryt = new Button("Avbryt");
+        avbryt.setOnAction(event -> {   // Go back to previous screen
+            tfNavn.clear();
+            tfBeskrivelse.clear();
+            window.setScene(ovelserScene);
+        });
+
+        HBox hbButtons = new HBox();
+        hbButtons.setSpacing(10.0);
+        hbButtons.setAlignment(Pos.CENTER_LEFT);
+        hbButtons.getChildren().addAll(endre, avbryt);
 
         grid.add(labelNavn, 0, 0);
         grid.add(tfNavn, 1, 0);

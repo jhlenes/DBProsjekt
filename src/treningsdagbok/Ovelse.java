@@ -1,4 +1,4 @@
-package database;
+package treningsdagbok;
 
 public class Ovelse
 {
@@ -18,14 +18,29 @@ public class Ovelse
         return ovelseNr;
     }
 
+    public void setOvelseNr(int ovelseNr)
+    {
+        this.ovelseNr = ovelseNr;
+    }
+
     public String getNavn()
     {
         return navn;
     }
 
+    public void setNavn(String navn)
+    {
+        this.navn = navn;
+    }
+
     public String getBeskrivelse()
     {
         return beskrivelse;
+    }
+
+    public void setBeskrivelse(String beskrivelse)
+    {
+        this.beskrivelse = beskrivelse;
     }
 
     @Override
