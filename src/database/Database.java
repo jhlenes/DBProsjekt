@@ -1,5 +1,7 @@
 package database;
 
+import treningsdagbok.Treningsokt;
+
 import java.sql.*;
 import java.util.Properties;
 
@@ -8,6 +10,7 @@ public class Database
 
     private Connection connection;
     private OvelseManager ovelseManager;
+    private TreningsoktManager treningsoktManager;
 
     public Database()
     {
@@ -19,6 +22,7 @@ public class Database
             p.put("password", "#CantGuessThis");
             connection = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no:3306/janhle_treningsdagbok", p);
             ovelseManager = new OvelseManager(connection);
+            treningsoktManager = new TreningsoktManager(connection);
 
         } catch (Exception e)
         {
