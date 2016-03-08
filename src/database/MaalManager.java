@@ -1,6 +1,7 @@
 package database;
 
 import javafx.scene.image.Image;
+import treningsdagbok.Maal;
 import treningsdagbok.Ovelse;
 
 import java.sql.*;
@@ -14,13 +15,7 @@ public class MaalManager {
 
     private Connection connection;
 
-    public MaalManager(Connection connection)
-    {
-        this.connection = connection;
-    }
-
-    private boolean updateSQL(String sql)
-    {
+    private boolean updateSQL(String sql) {
         try (Statement statement = connection.createStatement())
         {
             statement.executeUpdate(sql);
@@ -32,51 +27,41 @@ public class MaalManager {
         }
     }
 
-    public boolean addMaal(int maalNr, int OvelseNr, Boolean kondis, Date dato, Time tid)
+    public MaalManager(Connection connection)
     {
-        String sql = "INSERT INTO Ovelse VALUES ( " + maalNr + ", '" + OvelseNr + "', '" + kondis + ", " + dato + ", " + tid +"');";
+        this.connection = connection;
+    }
+
+    public boolean addMaal(int ovelseNr, Date dato, Time tidspunkt, int sett, int repetisjoner, int belastning)
+    {
+        String sql = "INSERT INTO Ovelse VALUES ( " + 0 + ", '" + ovelseNr + "', '" + dato + ", " + tidspunkt+ ", " + sett+ ", " + repetisjoner + ", " + belastning + "');";
         return updateSQL(sql);
     }
 
-    public boolean editStyrke(int maalNr, int ovelseNr, int sett, int repitisjoner, int belastning)
+
+    public boolean deleteMaal(int maalNr)
     {
-        String sql = "UPDATE Ovelse " +
-                "SET sett = '" + sett + "', repitisjoner = '" + repitisjoner + "' " + "', belastning = '" + belastning+
-                "WHERE maalNr = " + maalNr + ";";
+        String sql = "DELETE FROM Maal WHERE maalNr = " + maalNr + ";";
         return updateSQL(sql);
     }
 
-    public boolean editOvelse(String gammeltNavn, String nyttNavn, String nyBeskrivelse)
-    {
-        String sql = "UPDATE Ovelse " +
-                "SET navn = '" + nyttNavn + "', beskrivelse = '" + nyBeskrivelse + "' " +
-                "WHERE navn = '" + gammeltNavn + "';";
-        return updateSQL(sql);
-    }
 
-    public boolean deleteOvelse(int ovelseNr)
+    public Maal getMaal(int maalNr)
     {
-        String sql = "DELETE FROM Ovelse WHERE ovelseNr = " + ovelseNr + ";";
-        return updateSQL(sql);
-    }
-
-    public boolean deleteOvelse(String navn)
-    {
-        String sql = "DELETE FROM Ovelse WHERE navn = " + navn + ";";
-        return updateSQL(sql);
-    }
-
-    public Ovelse getOvelse(String navn)
-    {
-        String sql = "SELECT * FROM Ovelse WHERE navn = '" + navn + "';";
+        String sql = "SELECT * FROM Maal WHERE maalNr = '" + maalNr + "';";
         try (Statement statement = connection.createStatement())
         {
             ResultSet res = statement.executeQuery(sql);
             if (res.next())
             {
-                int ovelseNr = res.getInt(1);
-                String beskrivelse = res.getString(3);
-                return new Ovelse(ovelseNr, navn, beskrivelse);
+                int maalNr1 = res.getInt(1);
+                int ovelseNr = res.getInt(2);
+                Date dato = res.getDate(3);
+                Time tidspunkt = res.getTime(4);
+                int sett = res.getInt(5);
+                int repetisjoner = res.getInt(6);
+                int belastning = res.getInt(7);
+                return new Maal(maalNr1, ovelseNr, dato, tidspunkt, sett, repetisjoner, belastning);
             }
         } catch (SQLException e)
         {
@@ -85,24 +70,27 @@ public class MaalManager {
         return null;
     }
 
-    public List<Ovelse> getOvelser()
-    {
-        List<Ovelse> ovelser = new ArrayList<>();
-        String sql = "SELECT * FROM Ovelse;";
+    public List<Maal> getMaal() {
+        List<Maal> maal = new ArrayList<>();
+        String sql = "SELECT * FROM Maal;";
         try (ResultSet res = connection.createStatement().executeQuery(sql))
         {
             while (res.next())
             {
-                int ovelseNr = res.getInt(1);
-                String navn = res.getString(2);
-                String beskrivelse = res.getString(3);
-                ovelser.add(new Ovelse(ovelseNr, navn, beskrivelse));
+                int maalNr1 = res.getInt(1);
+                int ovelseNr = res.getInt(2);
+                Date dato = res.getDate(3);
+                Time tidspunkt = res.getTime(4);
+                int sett = res.getInt(5);
+                int repetisjoner = res.getInt(6);
+                int belastning = res.getInt(7);
+                maal.add(new Maal(maalNr1, ovelseNr, dato, tidspunkt, sett, repetisjoner, belastning));
             }
         } catch (SQLException e)
         {
             e.printStackTrace();
         }
-        return ovelser;
+        return maal;
     }
 
 }

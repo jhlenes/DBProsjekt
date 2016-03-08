@@ -14,44 +14,15 @@ public class Maal {
     private int sett;
     private int repetisjoner;
     private int belastning;
-    private Boolean kondis;
-    private int tid;
-    private int distanse;
 
-    public Maal(int maalNr, int ovelsesNr, Boolean kondis, Date dato, Time tidspunkt) {
+    public Maal(int maalNr1, int ovelseNr, Date dato, Time tidspunkt, int sett, int repetisjoner, int belastning) {
         this.maalNr = maalNr;
         this.ovelsesNr = ovelsesNr;
-        this.kondis = kondis;
-        this.dato = dato;
-        this.tidspunkt = tidspunkt;
-    }
-
-    public Boolean getKondis() {
-        return kondis;
-    }
-
-    public void setKondis(Boolean kondis) {
-        this.kondis = kondis;
-    }
-
-    public int getTid() {
-        return tid;
-    }
-
-    public void setTid(int tid) {
-        this.tid = tid;
-    }
-
-    public int getDistanse() {
-        return distanse;
-    }
-
-    public void setDistanse(int distanse) {
-        this.distanse = distanse;
-    }
-
-    public Date getDato() {
-        return dato;
+        this.dato = this.dato;
+        this.tidspunkt = this.tidspunkt;
+        this.sett = this.sett;
+        this.repetisjoner = this.repetisjoner;
+        this.belastning = this.belastning;
     }
 
     public int getBelastning() {
