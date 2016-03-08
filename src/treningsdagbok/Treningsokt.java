@@ -1,6 +1,7 @@
 package treningsdagbok;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Treningsokt
@@ -12,14 +13,14 @@ public class Treningsokt
     private boolean innendors;
 
     // Can be null
-    private int form;
-    private int prestasjon;
-    private String notat;
-    private int luftkvalitet;
-    private String vaertype;
-    private int temperatur;
+    private int form = 0;
+    private int prestasjon = 0;
+    private String notat = "";
+    private int luftkvalitet = 0;
+    private String vaertype = "";
+    private int temperatur = 0;
 
-    private List<Ovelse> ovelser;
+    private List<Ovelse> ovelser = new ArrayList<>();
 
     public Treningsokt(int oktNr, Date dato, int varighet, boolean innendors)
     {
@@ -27,6 +28,21 @@ public class Treningsokt
         this.dato = dato;
         this.varighet = varighet;
         this.innendors = innendors;
+    }
+
+    public boolean addOvelser(List<Ovelse> ovelser)
+    {
+        return this.ovelser.addAll(ovelser);
+    }
+
+    public boolean addOvelse(Ovelse ovelse)
+    {
+        return this.ovelser.add(ovelse);
+    }
+
+    public boolean removeOvelse(Ovelse ovelse)
+    {
+        return this.ovelser.remove(ovelse);
     }
 
     public int getOktNr()
@@ -128,4 +144,5 @@ public class Treningsokt
     {
         this.innendors = innendors;
     }
+
 }
