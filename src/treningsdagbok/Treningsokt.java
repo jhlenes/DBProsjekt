@@ -10,24 +10,21 @@ public class Treningsokt
     private int oktNr;
     private Date dato;
     private int varighet;
-    private boolean innendors;
 
     // Can be null
     private int form = 0;
     private int prestasjon = 0;
-    private String notat = "";
     private int luftkvalitet = 0;
-    private String vaertype = "";
     private int temperatur = 0;
+    private String notat = "";
 
     private List<Ovelse> ovelser = new ArrayList<>();
 
-    public Treningsokt(int oktNr, Date dato, int varighet, boolean innendors)
+    public Treningsokt(int oktNr, Date dato, int varighet)
     {
         this.oktNr = oktNr;
         this.dato = dato;
         this.varighet = varighet;
-        this.innendors = innendors;
     }
 
     public boolean addOvelser(List<Ovelse> ovelser)
@@ -115,16 +112,6 @@ public class Treningsokt
         this.luftkvalitet = luftkvalitet;
     }
 
-    public String getVaertype()
-    {
-        return vaertype;
-    }
-
-    public void setVaertype(String vaertype)
-    {
-        this.vaertype = vaertype;
-    }
-
     public int getTemperatur()
     {
         return temperatur;
@@ -133,16 +120,6 @@ public class Treningsokt
     public void setTemperatur(int temperatur)
     {
         this.temperatur = temperatur;
-    }
-
-    public boolean isInnendors()
-    {
-        return innendors;
-    }
-
-    public void setInnendors(boolean innendors)
-    {
-        this.innendors = innendors;
     }
 
 }

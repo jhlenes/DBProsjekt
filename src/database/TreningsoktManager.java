@@ -58,7 +58,7 @@ public class TreningsoktManager
 
     public boolean addTreningsokt(Treningsokt treningsokt)
     {
-        String sql = "INSERT INTO Treningsokt (oktNr, dato, tidspunkt, varighet, innendors, utendors) VALUES ()";
+        String sql = "INSERT INTO Treningsokt (oktNr, dato, tidspunkt, varighet,) VALUES ()";
         return false;
     }
 
