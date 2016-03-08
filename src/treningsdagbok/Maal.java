@@ -106,7 +106,4 @@ public class Maal {
         this.belastning = belastning;
     }
 
-
-
-
 }
