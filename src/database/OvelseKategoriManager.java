@@ -40,14 +40,20 @@ public class OvelseKategoriManager {
         return updateSQL(sql);
     }
 
-    
+    public boolean removeOvelseKategori (String navn){
+        String sql = "DELETE FROM Kategori WHERE navn = '" + navn + "';";
+        return updateSQL(sql);
+    }
+
+
     // Bare for å teste
     /*
     public static void main(String[] args) {
         Database database = new Database();
         Connection connection = database.getConnection();
         OvelseKategoriManager okm = new OvelseKategoriManager(connection);
-        okm.addOvelseKategori("Bein","Bein");
+        okm.removeOvelseKategori("Bein");
     }
     */
+
 }
