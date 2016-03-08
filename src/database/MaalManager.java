@@ -32,9 +32,10 @@ public class MaalManager {
         this.connection = connection;
     }
 
-    public boolean addMaal(int ovelseNr, Date dato, Time tidspunkt, int sett, int repetisjoner, int belastning)
+    public boolean addMaal(Date dato, Time tidspunkt, int sett, int repetisjoner, int belastning, int ovelseNr)
     {
-        String sql = "INSERT INTO Ovelse VALUES ( " + 0 + ", '" + ovelseNr + "', '" + dato + ", " + tidspunkt+ ", " + sett+ ", " + repetisjoner + ", " + belastning + "');";
+        String sql = "INSERT INTO Maal VALUES (NULL, '" + dato.toString() + "', '" + tidspunkt.toString() + "', "
+                + sett + ", " + repetisjoner + ", " + belastning +", " + ovelseNr +");";
         return updateSQL(sql);
     }
 
@@ -91,6 +92,52 @@ public class MaalManager {
             e.printStackTrace();
         }
         return maal;
+    }
+
+    public List<Maal> getAlleMaalFor(int ovelseNr) {
+        List<Maal> maal = new ArrayList<>();
+        String sql = "SELECT * FROM Maal WHERE ovelseNr = " + ovelseNr + ";";
+        try (ResultSet res = connection.createStatement().executeQuery(sql))
+        {
+            while (res.next())
+            {
+                int maalNr = res.getInt(1);
+                Date dato = res.getDate(2);
+                Time tidspunkt = res.getTime(3);
+                int sett = res.getInt(4);
+                int repetisjoner = res.getInt(5);
+                int belastning = res.getInt(6);
+                maal.add(new Maal(maalNr, ovelseNr, dato, tidspunkt, sett, repetisjoner, belastning));
+            }
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return maal;
+    }
+
+    public Maal getLatest()
+    {
+        String sql = "SELECT * FROM Maal ORDER BY maalNr DESC LIMIT 1;";
+        try (Statement statement = connection.createStatement())
+        {
+            ResultSet res = statement.executeQuery(sql);
+            if (res.next())
+            {
+                int maalNr = res.getInt(1);
+                Date dato = res.getDate(2);
+                Time tidspunkt = res.getTime(3);
+                int sett = res.getInt(4);
+                int repetisjoner = res.getInt(5);
+                int belastning = res.getInt(6);
+                int ovelseNr = res.getInt(7);
+                return new Maal(maalNr, ovelseNr, dato, tidspunkt, sett, repetisjoner, belastning);
+            }
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

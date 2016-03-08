@@ -51,7 +51,7 @@ public class Ovelse
             return getNavn();
         } else
         {
-            return getNavn() + ": " + getBeskrivelse();
+            return String.format("%s: %s", getNavn(), getBeskrivelse());
         }
     }
 }

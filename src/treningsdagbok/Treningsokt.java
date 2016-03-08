@@ -1,6 +1,7 @@
 package treningsdagbok;
 
 import java.sql.Date;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,22 +10,27 @@ public class Treningsokt
 
     private int oktNr;
     private Date dato;
+    private Time tidspunkt;
     private int varighet;
-
-    // Can be null
-    private int form = 0;
-    private int prestasjon = 0;
-    private int luftkvalitet = 0;
-    private int temperatur = 0;
-    private String notat = "";
+    private int form;
+    private int prestasjon;
+    private int luftkvalitet;
+    private int temperatur;
+    private String notat;
 
     private List<Ovelse> ovelser = new ArrayList<>();
 
-    public Treningsokt(int oktNr, Date dato, int varighet)
+    public Treningsokt(int oktNr, Date dato, Time tidspunkt, int varighet, int form, int prestasjon, int luftkvalitet, int temperatur, String notat)
     {
         this.oktNr = oktNr;
         this.dato = dato;
+        this.tidspunkt = tidspunkt;
         this.varighet = varighet;
+        this.form = form;
+        this.prestasjon = prestasjon;
+        this.luftkvalitet = luftkvalitet;
+        this.temperatur = temperatur;
+        this.notat = notat;
     }
 
     public boolean addOvelser(List<Ovelse> ovelser)
@@ -60,6 +66,16 @@ public class Treningsokt
     public void setDato(Date dato)
     {
         this.dato = dato;
+    }
+
+    public Time getTidspunkt()
+    {
+        return tidspunkt;
+    }
+
+    public void setTidspunkt(Time tidspunkt)
+    {
+        this.tidspunkt = tidspunkt;
     }
 
     public int getVarighet()

@@ -8,21 +8,25 @@ import java.sql.Time;
  */
 public class Maal {
     private int maalNr;
-    private int ovelsesNr;
+    private int ovelseNr;
     private Date dato;
     private Time tidspunkt;
     private int sett;
     private int repetisjoner;
     private int belastning;
 
-    public Maal(int maalNr1, int ovelseNr, Date dato, Time tidspunkt, int sett, int repetisjoner, int belastning) {
+    public Maal(int maalNr, int ovelseNr, Date dato, Time tidspunkt, int sett, int repetisjoner, int belastning) {
         this.maalNr = maalNr;
-        this.ovelsesNr = ovelsesNr;
-        this.dato = this.dato;
-        this.tidspunkt = this.tidspunkt;
-        this.sett = this.sett;
-        this.repetisjoner = this.repetisjoner;
-        this.belastning = this.belastning;
+        this.ovelseNr = ovelseNr;
+        this.dato = dato;
+        this.tidspunkt = tidspunkt;
+        this.sett = sett;
+        this.repetisjoner = repetisjoner;
+        this.belastning = belastning;
+    }
+
+    public Date getDato() {
+        return dato;
     }
 
     public int getBelastning() {
@@ -33,8 +37,8 @@ public class Maal {
         return maalNr;
     }
 
-    public int getOvelsesNr() {
-        return ovelsesNr;
+    public int getOvelseNr() {
+        return ovelseNr;
     }
 
     public int getRepetisjoner() {
@@ -49,8 +53,8 @@ public class Maal {
         this.maalNr = maalNr;
     }
 
-    public void setOvelsesNr(int ovelsesNr) {
-        this.ovelsesNr = ovelsesNr;
+    public void setOvelseNr(int ovelseNr) {
+        this.ovelseNr = ovelseNr;
     }
 
     public void setDato(Date dato) {
@@ -77,4 +81,9 @@ public class Maal {
         this.belastning = belastning;
     }
 
+    @Override
+    public String toString()
+    {
+        return dato + ": " + sett + "x" + repetisjoner + "x" + belastning + "kg";
+    }
 }

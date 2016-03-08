@@ -10,6 +10,7 @@ public class Database
 
     private Connection connection;
     private OvelseManager ovelseManager;
+    private MaalManager maalManager;
     private TreningsoktManager treningsoktManager;
 
     public Database()
@@ -21,8 +22,12 @@ public class Database
             p.put("user", "janhle_prosjekt");
             p.put("password", "#CantGuessThis");
             connection = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no:3306/janhle_treningsdagbok", p);
+
+            // Setup managers
             ovelseManager = new OvelseManager(connection);
+            maalManager = new MaalManager(connection);
             treningsoktManager = new TreningsoktManager(connection);
+
 
         } catch (Exception e)
         {
@@ -40,6 +45,15 @@ public class Database
         return ovelseManager;
     }
 
+    public MaalManager getMaalManager()
+    {
+        return maalManager;
+    }
+
+
+    /**
+     *  Example code
+     */
     public static void main(String[] args) throws SQLException
     {
         Database database = new Database();

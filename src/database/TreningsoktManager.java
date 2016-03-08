@@ -1,17 +1,10 @@
 package database;
 
-
 import treningsdagbok.Ovelse;
 import treningsdagbok.Treningsokt;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-/**
- * Not functional!!!!!!!!!!!!!!!!!!!!!!!
- */
+import java.sql.*;
+import java.sql.Date;
 
 public class TreningsoktManager
 {
@@ -56,16 +49,20 @@ public class TreningsoktManager
         return true;
     }
 
+
+    /**
+     * FUNKER IKKE!!!!!!!!!!!
+     * @param treningsokt
+     * @return
+     */
     public boolean addTreningsokt(Treningsokt treningsokt)
     {
-        String sql = "INSERT INTO Treningsokt (oktNr, dato, tidspunkt, varighet,) VALUES ()";
-        return false;
+        int oktNr = treningsokt.getOktNr();
+        Date dato = treningsokt.getDato();
+
+
+        String sql = "INSERT INTO Treningsokt VALUES (oktNr, dato, tidspunkt, varighet, form, prestasjon, notat, luftkvalitet, temperatur)";
+        return updateSQL(sql);
     }
-
-    public static void main(String[] args)
-    {
-
-    }
-
 
 }
