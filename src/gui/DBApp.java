@@ -94,6 +94,7 @@ public class DBApp extends Application
         ObservableList<Treningsokt> treningsoktObservableList = FXCollections.observableArrayList(okter);
         ListView<Treningsokt> treningsoktListView = new ListView<>(treningsoktObservableList);
         grid.add(treningsoktListView, 0, 1, 3, 4);
+        treningsoktListView.setPrefWidth(450);
 
         return grid;
 

@@ -33,15 +33,15 @@ public class Treningsokt
 
     @Override
     public String toString() {
-        return "Treningsokt:" +
-                ", dato=" + dato +
-                ", tidspunkt=" + tidspunkt +
-                ", varighet=" + varighet +
-                ", form=" + form +
-                ", prestasjon=" + prestasjon +
-                ", luftkvalitet=" + luftkvalitet +
-                ", temperatur=" + temperatur +
-                ", notat='" + notat + '\'' +
+        return "Treningsøkt den " +
+                 dato +
+                " kl: " + tidspunkt +
+                ", varighet: " + varighet +
+                ", formen: " + form +
+                ", prestasjonen: " + prestasjon +
+                ", luftkvaliteten: " + luftkvalitet +
+                ", temperaturen: " + temperatur +
+                ", notat: " + notat + '\'' +
                 '}';
     }
 
