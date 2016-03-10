@@ -18,7 +18,7 @@ public class Treningsokt
     private int temperatur;
     private String notat;
 
-    public Treningsokt(int oktNr, Date dato, Time tidspunkt, int varighet, int form, int prestasjon, int luftkvalitet, int temperatur, String notat)
+    public Treningsokt(int oktNr, Date dato, Time tidspunkt, int varighet, int form, int prestasjon, String notat, int luftkvalitet, int temperatur)
     {
         this.oktNr = oktNr;
         this.dato = dato;
@@ -26,9 +26,9 @@ public class Treningsokt
         this.varighet = varighet;
         this.form = form;
         this.prestasjon = prestasjon;
+        this.notat = notat;
         this.luftkvalitet = luftkvalitet;
         this.temperatur = temperatur;
-        this.notat = notat;
     }
 
 
@@ -121,5 +121,7 @@ public class Treningsokt
     {
         this.temperatur = temperatur;
     }
+
+
 
 }

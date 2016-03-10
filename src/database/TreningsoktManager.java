@@ -62,4 +62,32 @@ public class TreningsoktManager
         return updateSQL(sql);
     }
 
+    public List<Treningsokt> getTreningsokter()
+    {
+        List<Treningsokt> okter = new ArrayList<>();
+        String sql = "SELECT * FROM Treningsokt;";
+        try (ResultSet res = connection.createStatement().executeQuery(sql))
+        {
+            while (res.next())
+            {
+                int oktNr = res.getInt(1);
+                Date dato = res.getDate(2);
+                Time tidspunkt = res.getTime(3);
+                int varighet = res.getInt(4);
+                int form = res.getInt(5);
+                int prestasjon = res.getInt(6);
+                String notat = res.getString(7);
+                int luftkvalitet = res.getInt(8);
+                int temperatur = res.getInt(9);
+
+                okter.add(new Treningsokt(oktNr, dato, tidspunkt, varighet, form, prestasjon, notat, luftkvalitet, temperatur));
+            }
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+            return okter;
+        }
+        return okter;
+    }
+
 }

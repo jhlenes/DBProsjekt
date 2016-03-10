@@ -18,6 +18,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
+import treningsdagbok.Treningsokt;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -83,9 +84,20 @@ public class DBApp extends Application
 
     private GridPane setupOktScene()
     {
-        return new GridPane();
-    }
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(25, 25, 25, 25));
 
+        // Setup list of maal for given ovelse
+        List<Treningsokt> okter = database.getTreningsoktManager().getTreningsokter();
+        ObservableList<Treningsokt> treningsoktObservableList = FXCollections.observableArrayList(okter);
+        ListView<Treningsokt> treningsoktListView = new ListView<>(treningsoktObservableList);
+        grid.add(treningsoktListView, 0, 1, 3, 4);
+
+        return grid;
+
+    }
 
     private GridPane setupOvelseScene()
     {
@@ -387,7 +399,5 @@ public class DBApp extends Application
         }
 
     }
-
-
 
 }

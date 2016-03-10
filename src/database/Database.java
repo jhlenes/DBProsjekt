@@ -50,9 +50,13 @@ public class Database
         return maalManager;
     }
 
+    public TreningsoktManager getTreningsoktManager()
+    {
+        return treningsoktManager;
+    }
 
     /**
-     *  Example code
+     * Example code
      */
     public static void main(String[] args) throws SQLException
     {

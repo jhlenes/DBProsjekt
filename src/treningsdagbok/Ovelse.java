@@ -18,11 +18,6 @@ public class Ovelse
         return ovelseNr;
     }
 
-    public void setOvelseNr(int ovelseNr)
-    {
-        this.ovelseNr = ovelseNr;
-    }
-
     public String getNavn()
     {
         return navn;
