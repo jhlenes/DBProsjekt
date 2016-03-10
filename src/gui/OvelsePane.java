@@ -5,12 +5,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.TilePane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import treningsdagbok.Ovelse;
 
@@ -35,15 +39,22 @@ public class OvelsePane extends GridPane
     private void setup()
     {
         // Paddings
+        setAlignment(Pos.CENTER);
         setHgap(10);
         setVgap(10);
         setPadding(new Insets(25, 25, 25, 25));
+
+        // Label on top
+        Label label = new Label("Øvelser:");
+        label.setFont(Font.font("Verdana", FontWeight.BOLD, 30));
+        add(label, 0, 0, 3, 1);
 
         // Setup list
         List<Ovelse> ovelser = database.getOvelseManager().getOvelser();
         ObservableList<Ovelse> ovelseObservableList = FXCollections.observableArrayList(ovelser);
         ListView<Ovelse> ovelseListView = new ListView<>(ovelseObservableList);
-        add(ovelseListView, 0, 0, 3, 4);
+        add(ovelseListView, 0, 1, 3, 4);
+        ovelseListView.setPrefWidth(DBApp.SIZE_X / 2);
 
         // Setup buttons
         Button buttonLeggTil = new Button("Legg til");
@@ -55,7 +66,7 @@ public class OvelsePane extends GridPane
         Button buttonEndre = new Button("Endre");
         buttonEndre.setOnAction(e -> {
             Ovelse ovelse = ovelseListView.getSelectionModel().getSelectedItem();
-            Scene scene = new Scene(new EditOvelsePane(database, window, main, tabPane, ovelseListView, ovelse), 500, 500);
+            Scene scene = new Scene(new EditOvelsePane(database, window, main, tabPane, ovelseObservableList, ovelse), DBApp.SIZE_X, DBApp.SIZE_Y);
             window.setScene(scene);
         });
 
@@ -89,6 +100,6 @@ public class OvelsePane extends GridPane
         tileButtons.getChildren().addAll(buttonLeggTil, buttonEndre, buttonSlett, buttonMaal);
 
         // Add buttons to grid
-        add(tileButtons, 0, 4, 4, 1);
+        add(tileButtons, 0, 5, 4, 1);
     }
 }

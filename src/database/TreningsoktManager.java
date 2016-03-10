@@ -71,7 +71,7 @@ public class TreningsoktManager
     public List<Treningsokt> getTreningsokter()
     {
         List<Treningsokt> okter = new ArrayList<>();
-        String sql = "SELECT * FROM Treningsokt;";
+        String sql = "SELECT * FROM Treningsokt ORDER BY dato DESC, tidspunkt DESC;";
         try (ResultSet res = connection.createStatement().executeQuery(sql))
         {
             while (res.next())
@@ -96,41 +96,15 @@ public class TreningsoktManager
         return okter;
     }
 
-    public Treningsokt getLatest()
-    {
-        String sql = "SELECT * FROM Treningsokt ORDER BY oktNr DESC LIMIT 1;";
-        try (Statement statement = connection.createStatement())
-        {
-            ResultSet res = statement.executeQuery(sql);
-            if (res.next())
-            {
-                int oktNr = res.getInt(1);
-                Date dato = res.getDate(2);
-                Time tidspunkt = res.getTime(3);
-                int varighet = res.getInt(4);
-                int form = res.getInt(5);
-                int prestasjon = res.getInt(6);
-                String notat = res.getString(7);
-                int luftkvalitet = res.getInt(8);
-                int temperatur = res.getInt(9);
-                return new Treningsokt(oktNr, dato, tidspunkt, varighet, form, prestasjon, notat, luftkvalitet, temperatur);
-            }
-        } catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     public List<String> getTreningsNotater() {
         List<String> notater = new ArrayList<>();
-        String sql = "SELECT date,notat FROM Treningsokt;";
+        String sql = "SELECT dato, notat FROM Treningsokt ORDER BY dato DESC, tidspunkt DESC;";
         try (ResultSet res = connection.createStatement().executeQuery(sql)) {
             while (res.next()) {
-                Date dato = res.getDate(2);
-                String notat = res.getString(7);
+                Date dato = res.getDate(1);
+                String notat = res.getString(2);
 
-                notater.add("trening den " + dato + " notat: " + notat);
+                notater.add("Trening den " + dato + ": " + notat);
             }
         } catch (SQLException e) {
             e.printStackTrace();

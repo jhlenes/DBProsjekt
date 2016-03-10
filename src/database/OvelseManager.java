@@ -46,23 +46,9 @@ public class OvelseManager
         return updateSQL(sql);
     }
 
-    public boolean editOvelse(String gammeltNavn, String nyttNavn, String nyBeskrivelse)
-    {
-        String sql = "UPDATE Ovelse " +
-                "SET navn = '" + nyttNavn + "', beskrivelse = '" + nyBeskrivelse + "' " +
-                "WHERE navn = '" + gammeltNavn + "';";
-        return updateSQL(sql);
-    }
-
     public boolean deleteOvelse(int ovelseNr)
     {
         String sql = "DELETE FROM Ovelse WHERE ovelseNr = " + ovelseNr + ";";
-        return updateSQL(sql);
-    }
-
-    public boolean deleteOvelse(String navn)
-    {
-        String sql = "DELETE FROM Ovelse WHERE navn = " + navn + ";";
         return updateSQL(sql);
     }
 
@@ -88,7 +74,7 @@ public class OvelseManager
     public List<Ovelse> getOvelser()
     {
         List<Ovelse> ovelser = new ArrayList<>();
-        String sql = "SELECT * FROM Ovelse;";
+        String sql = "SELECT * FROM Ovelse ORDER BY navn ASC;";
         try (ResultSet res = connection.createStatement().executeQuery(sql))
         {
             while (res.next())

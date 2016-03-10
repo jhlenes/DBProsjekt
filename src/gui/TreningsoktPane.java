@@ -12,6 +12,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import treningsdagbok.Treningsokt;
 
@@ -36,15 +38,21 @@ public class TreningsoktPane extends GridPane
     private void setup()
     {
         // Paddings
+        setAlignment(Pos.CENTER);
         setHgap(10);
         setVgap(10);
         setPadding(new Insets(25, 25, 25, 25));
+
+        // Label on top
+        Label label = new Label("Treningsøkter:");
+        label.setFont(Font.font("Verdana", FontWeight.BOLD, 30));
+        add(label, 0, 0, 3, 1);
 
         // Setup list
         List<Treningsokt> treningsokter = database.getTreningsoktManager().getTreningsokter();
         ObservableList<Treningsokt> treningsoktObservableList = FXCollections.observableArrayList(treningsokter);
         ListView<Treningsokt> treningsoktListView = new ListView<>(treningsoktObservableList);
-        treningsoktListView.setPrefWidth(500);
+        treningsoktListView.setPrefWidth(DBApp.SIZE_X);
         add(treningsoktListView, 0, 1, 5, 4);
 
         // Setup buttons
@@ -56,6 +64,7 @@ public class TreningsoktPane extends GridPane
 
         Button buttonSlett = new Button("Slett");
         buttonSlett.setOnAction(e -> {
+
             Treningsokt treningsokt = treningsoktListView.getSelectionModel().getSelectedItem();
 
             // If deletion from database was successful, delete locally
@@ -65,16 +74,25 @@ public class TreningsoktPane extends GridPane
             }
         });
 
+        Button buttonLogg = new Button("Logg");
+        buttonLogg.setOnAction(e -> {
+
+            List<String> logg = database.getTreningsoktManager().getTreningsNotater();
+            Scene scene = new Scene(new LoggPane(database, window, main, tabPane), DBApp.SIZE_X, DBApp.SIZE_Y);
+            window.setScene(scene);
+        });
+
         // Equal sized buttons
         buttonLeggTil.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         buttonSlett.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        buttonLogg.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
         // Buttons properties
         TilePane tileButtons = new TilePane(Orientation.HORIZONTAL);
         tileButtons.setPadding(new Insets(20, 10, 20, 0));
         tileButtons.setHgap(10);
         tileButtons.setVgap(10);
-        tileButtons.getChildren().addAll(buttonLeggTil, buttonSlett);
+        tileButtons.getChildren().addAll(buttonLeggTil, buttonSlett, buttonLogg);
 
         // Add buttons to grid
         add(tileButtons, 0, 5, 4, 1);

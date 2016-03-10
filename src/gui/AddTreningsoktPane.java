@@ -1,8 +1,10 @@
 package gui;
 
 import database.Database;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -12,8 +14,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import treningsdagbok.Treningsokt;
+
+import java.util.List;
 
 public class AddTreningsoktPane extends GridPane
 {
@@ -39,11 +45,18 @@ public class AddTreningsoktPane extends GridPane
         setAlignment(Pos.CENTER);
         setHgap(10);
         setVgap(10);
+        setPadding(new Insets(25, 25, 25, 25));
+
+        // Label on top
+        Label label = new Label("Legg til treningsøkt:");
+        label.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
+        add(label, 0, 0, 2, 1);
 
         // Column properties
         ColumnConstraints column1 = new ColumnConstraints();
         column1.setHalignment(HPos.RIGHT);
         getColumnConstraints().add(column1);
+
 
         // Setup components
         Label labelVarighet = new Label("Varighet:");
@@ -74,7 +87,9 @@ public class AddTreningsoktPane extends GridPane
             // If addition to database was successful, add locally
             if (database.getTreningsoktManager().addTreningsokt(varighet, form, prestasjon, notat, luftkvalitet, temperatur))
             {
-                treningsoktObservableList.add(database.getTreningsoktManager().getLatest());
+                treningsoktObservableList.clear();
+                List<Treningsokt> treningsokter = database.getTreningsoktManager().getTreningsokter();
+                treningsoktObservableList.addAll(treningsokter);
 
                 // Go back to previous scene
                 tabPane.getSelectionModel().select(0);

@@ -5,10 +5,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.TilePane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import treningsdagbok.Maal;
 import treningsdagbok.Ovelse;
@@ -36,18 +39,21 @@ public class MaalPane extends GridPane
     private void setup()
     {
         // Paddings
+        setAlignment(Pos.CENTER);
         setHgap(10);
         setVgap(10);
         setPadding(new Insets(25, 25, 25, 25));
 
-        // Show name of ovelse on top
-        Label ovelseNavn = new Label(ovelse.getNavn() + ":");
-        add(ovelseNavn, 0, 0, 3, 1);
+        // Label on top
+        Label label = new Label("Mål for " + ovelse.getNavn() + ":");
+        label.setFont(Font.font("Verdana", FontWeight.BOLD, 30));
+        add(label, 0, 0, 3, 1);
 
         // Setup list of maal for given ovelse
         List<Maal> maalList = database.getMaalManager().getAlleMaalFor(ovelse.getOvelseNr());
         ObservableList<Maal> maalObservableList = FXCollections.observableArrayList(maalList);
         ListView<Maal> maalListView = new ListView<>(maalObservableList);
+        maalListView.setPrefWidth(DBApp.SIZE_X / 2);
         add(maalListView, 0, 1, 3, 4);
 
         // Setup buttons

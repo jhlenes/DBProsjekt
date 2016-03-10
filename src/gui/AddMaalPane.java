@@ -3,6 +3,7 @@ package gui;
 import database.Database;
 import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -12,12 +13,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import treningsdagbok.Maal;
 import treningsdagbok.Ovelse;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.List;
 
 public class AddMaalPane extends GridPane
 {
@@ -45,10 +49,12 @@ public class AddMaalPane extends GridPane
         setAlignment(Pos.CENTER);
         setHgap(10);
         setVgap(10);
+        setPadding(new Insets(25, 25, 25, 25));
 
-        // Show name of ovelse on top
-        Label ovelseNavn = new Label(ovelse.getNavn() + ":");
-        add(ovelseNavn, 1, 0, 1, 1);
+        // Label on top
+        Label label = new Label(ovelse.getNavn() + ":");
+        label.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
+        add(label, 0, 0, 2, 1);
 
         // Column properties
         ColumnConstraints column1 = new ColumnConstraints();
@@ -78,7 +84,9 @@ public class AddMaalPane extends GridPane
             // If addition to database is successfull, add locally
             if (database.getMaalManager().addMaal(dato, tidspunkt, sett, repetisjoner, belastning, ovelseNr))
             {
-                maalObservableList.add(database.getMaalManager().getLatest());
+                maalObservableList.clear();
+                List<Maal> maal = database.getMaalManager().getAlleMaalFor(ovelseNr);
+                maalObservableList.addAll(maal);
 
                 // Go back to previous scene
                 Scene scene = new Scene(new MaalPane(database, window, main, tabPane, ovelse), DBApp.SIZE_X, DBApp.SIZE_Y);

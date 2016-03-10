@@ -3,14 +3,19 @@ package gui;
 import database.Database;
 import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import treningsdagbok.Ovelse;
+
+import java.util.List;
 
 public class EditOvelsePane extends GridPane
 {
@@ -18,16 +23,16 @@ public class EditOvelsePane extends GridPane
     private Stage window;
     private Scene main;
     private TabPane tabPane;
-    private ListView<Ovelse> ovelseListView;
+    private ObservableList<Ovelse> ovelseObservableList;
     private Ovelse ovelse;
 
-    public EditOvelsePane(Database database, Stage window, Scene main, TabPane tabPane, ListView<Ovelse> ovelseListView, Ovelse ovelse)
+    public EditOvelsePane(Database database, Stage window, Scene main, TabPane tabPane, ObservableList<Ovelse> ovelseObservableList, Ovelse ovelse)
     {
         this.database = database;
         this.window = window;
         this.main = main;
         this.tabPane = tabPane;
-        this.ovelseListView = ovelseListView;
+        this.ovelseObservableList = ovelseObservableList;
         this.ovelse = ovelse;
         setup();
     }
@@ -38,6 +43,12 @@ public class EditOvelsePane extends GridPane
         setAlignment(Pos.CENTER);
         setHgap(10);
         setVgap(10);
+        setPadding(new Insets(25, 25, 25, 25));
+
+        // Label on top
+        Label label = new Label("Endre øvelse:");
+        label.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
+        add(label, 0, 0, 2, 1);
 
         // Column properties
         ColumnConstraints column1 = new ColumnConstraints();
@@ -65,9 +76,9 @@ public class EditOvelsePane extends GridPane
             // If editing the database was successful, edit locally
             if (database.getOvelseManager().editOvelse(ovelse.getOvelseNr(), nyttNavn, nyBeskrivelse))
             {
-                ovelse.setNavn(nyttNavn);
-                ovelse.setBeskrivelse(nyBeskrivelse);
-                ovelseListView.refresh();
+                ovelseObservableList.clear();
+                List<Ovelse> ovelser = database.getOvelseManager().getOvelser();
+                ovelseObservableList.addAll(ovelser);
 
                 // Go back to previous scene
                 tabPane.getSelectionModel().select(1);
@@ -90,10 +101,10 @@ public class EditOvelsePane extends GridPane
         hbButtons.getChildren().addAll(endre, avbryt);
 
         // Add components to grid
-        add(labelNavn, 0, 0);
-        add(tfNavn, 1, 0);
-        add(labelBeskrivelse, 0, 1);
-        add(tfBeskrivelse, 1, 1);
-        add(hbButtons, 1, 2, 1, 1);
+        add(labelNavn, 0, 1);
+        add(tfNavn, 1, 1);
+        add(labelBeskrivelse, 0, 2);
+        add(tfBeskrivelse, 1, 2);
+        add(hbButtons, 1, 3, 1, 1);
     }
 }
