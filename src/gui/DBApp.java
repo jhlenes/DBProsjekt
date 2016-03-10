@@ -71,6 +71,8 @@ public class DBApp extends Application
         tabOvelser.setText("Øvelser");
         tabOvelser.setContent(layout);
 
+        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+
         tabPane.getTabs().addAll(tabOkter, tabOvelser);
 
         main = new Scene(tabPane, 500, 500);
@@ -95,8 +97,105 @@ public class DBApp extends Application
         ListView<Treningsokt> treningsoktListView = new ListView<>(treningsoktObservableList);
         grid.add(treningsoktListView, 0, 1, 3, 4);
 
-        return grid;
+        Button buttonLeggTil = new Button("Legg til");
+        buttonLeggTil.setOnAction(e -> {
+            Scene scene = new Scene(setupTreningsoktAddScene(treningsoktObservableList), 500, 500);
+            window.setScene(scene);
+        });
 
+        Button buttonSlett = new Button("Slett");
+        buttonSlett.setOnAction(e -> {
+            Treningsokt treningsokt = treningsoktListView.getSelectionModel().getSelectedItem();
+            if (database.getTreningsoktManager().deleteTreningsokt(treningsokt.getOktNr()))
+            {
+                treningsoktObservableList.remove(treningsokt);
+            }
+        });
+
+        // Equal sized buttons
+        buttonLeggTil.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        buttonSlett.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+
+        TilePane tileButtons = new TilePane(Orientation.HORIZONTAL);
+        tileButtons.setPadding(new Insets(20, 10, 20, 0));
+        tileButtons.setHgap(10);
+        tileButtons.setVgap(10);
+        tileButtons.getChildren().addAll(buttonLeggTil, buttonSlett);
+
+        grid.add(tileButtons, 0, 5, 4, 1);
+
+        return grid;
+    }
+
+    private GridPane setupTreningsoktAddScene(ObservableList<Treningsokt> treningsoktObservableList)
+    {
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(12);
+
+        ColumnConstraints column1 = new ColumnConstraints();
+        column1.setHalignment(HPos.RIGHT);
+        grid.getColumnConstraints().add(column1);
+
+        Label labelVarighet = new Label("Varighet:");
+        TextField tfVarighet = new TextField();
+        Label labelForm = new Label("Form:");
+        TextField tfForm = new TextField();
+        Label labelPrestasjon = new Label("Prestasjon:");
+        TextField tfPrestasjon = new TextField();
+        Label labelNotat = new Label("Notat:");
+        TextField tfNotat = new TextField();
+        Label labelLuftkvalitet = new Label("Luftkvalitet:");
+        TextField tfLuftkvalitet = new TextField();
+        Label labelTemperatur = new Label("Temperatur:");
+        TextField tfTemperatur = new TextField();
+
+        Button buttonLeggTil = new Button("Legg til");
+        buttonLeggTil.setOnAction(e -> {     // Update database and listview
+
+            int varighet = Integer.parseInt(tfVarighet.getText());
+            int form = Integer.parseInt(tfForm.getText());
+            int prestasjon = Integer.parseInt(tfPrestasjon.getText());
+            String notat = tfForm.getText();
+            int luftkvalitet = Integer.parseInt(tfForm.getText());
+            int temperatur = Integer.parseInt(tfForm.getText());
+
+            if (database.getTreningsoktManager().addTreningsokt(varighet,form,prestasjon,notat,luftkvalitet,temperatur))
+            {
+                treningsoktObservableList.add(database.getTreningsoktManager().getLatest());
+                tabPane.getSelectionModel().select(0);
+                window.setScene(main);
+            }
+        });
+
+        Button buttonAvbryt = new Button("Avbryt");
+        buttonAvbryt.setOnAction(event -> {   // Go back to previous screen
+            tabPane.getSelectionModel().select(0);
+            window.setScene(main);
+        });
+
+        HBox hbButtons = new HBox();
+        hbButtons.setSpacing(10.0);
+        hbButtons.setAlignment(Pos.CENTER_LEFT);
+        hbButtons.getChildren().addAll(buttonLeggTil, buttonAvbryt);
+
+        grid.add(labelVarighet, 0, 1);
+        grid.add(tfVarighet, 1, 1);
+        grid.add(labelForm,0,2);
+        grid.add(tfForm,1,2);
+        grid.add(labelPrestasjon,0,3);
+        grid.add(tfPrestasjon,1,3);
+        grid.add(labelNotat, 0, 4);
+        grid.add(tfNotat, 1, 4);
+        grid.add(labelLuftkvalitet, 0, 5);
+        grid.add(tfNotat, 1, 5);
+        grid.add(labelTemperatur, 0, 6);
+        grid.add(tfTemperatur, 1, 6);
+
+        grid.add(hbButtons, 7, 4, 1, 1);
+
+        return grid;
     }
 
     private GridPane setupOvelseScene()
