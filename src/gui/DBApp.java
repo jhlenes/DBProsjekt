@@ -303,15 +303,11 @@ public class DBApp extends Application
 
             // Show name of ovelse on top
             Label ovelseNavn = new Label(ovelse.getNavn() + ":");
-            grid.add(ovelseNavn, 0, 0, 2, 1);
+            grid.add(ovelseNavn, 1, 0, 1, 1);
 
             ColumnConstraints column1 = new ColumnConstraints();
             column1.setHalignment(HPos.RIGHT);
             grid.getColumnConstraints().add(column1);
-
-            ColumnConstraints column2 = new ColumnConstraints();
-            column2.setHalignment(HPos.LEFT);
-            grid.getColumnConstraints().add(column2);
 
             Label labelSett = new Label("Sett:");
             TextField tfSett = new TextField();
