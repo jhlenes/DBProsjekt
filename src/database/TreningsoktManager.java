@@ -122,5 +122,20 @@ public class TreningsoktManager
         return null;
     }
 
+    public List<String> getTreningsNotater() {
+        List<String> notater = new ArrayList<>();
+        String sql = "SELECT date,notat FROM Treningsokt;";
+        try (ResultSet res = connection.createStatement().executeQuery(sql)) {
+            while (res.next()) {
+                Date dato = res.getDate(2);
+                String notat = res.getString(7);
 
+                notater.add("trening den " + dato + " notat: " + notat);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return notater;
+        }
+        return notater;
+    }
 }

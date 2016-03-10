@@ -31,6 +31,19 @@ public class Treningsokt
         this.temperatur = temperatur;
     }
 
+    @Override
+    public String toString() {
+        return "Treningsøkt den " +
+                 dato +
+                " kl: " + tidspunkt +
+                ", varighet: " + varighet +
+                ", formen: " + form +
+                ", prestasjonen: " + prestasjon +
+                ", luftkvaliteten: " + luftkvalitet +
+                ", temperaturen: " + temperatur +
+                ", notat: " + notat + '\'' +
+                '}';
+    }
 
     public int getOktNr()
     {
