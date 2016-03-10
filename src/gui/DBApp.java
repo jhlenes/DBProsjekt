@@ -1,6 +1,7 @@
 package gui;
 
 import database.Database;
+import database.TreningsoktManager;
 import treningsdagbok.Maal;
 import treningsdagbok.Ovelse;
 
