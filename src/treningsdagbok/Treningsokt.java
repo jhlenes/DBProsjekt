@@ -2,8 +2,6 @@ package treningsdagbok;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Treningsokt
 {
@@ -42,7 +40,7 @@ public class Treningsokt
                 ", prestasjonen: " + prestasjon +
                 ", luftkvaliteten: " + luftkvalitet +
                 ", temperaturen: " + temperatur +
-                ", notat: " + notat + "}";
+                ", notat: " + notat;
     }
 
     public int getOktNr()
