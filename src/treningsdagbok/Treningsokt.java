@@ -18,8 +18,6 @@ public class Treningsokt
     private int temperatur;
     private String notat;
 
-    private List<Ovelse> ovelser = new ArrayList<>();
-
     public Treningsokt(int oktNr, Date dato, Time tidspunkt, int varighet, int form, int prestasjon, int luftkvalitet, int temperatur, String notat)
     {
         this.oktNr = oktNr;
@@ -33,20 +31,6 @@ public class Treningsokt
         this.notat = notat;
     }
 
-    public boolean addOvelser(List<Ovelse> ovelser)
-    {
-        return this.ovelser.addAll(ovelser);
-    }
-
-    public boolean addOvelse(Ovelse ovelse)
-    {
-        return this.ovelser.add(ovelse);
-    }
-
-    public boolean removeOvelse(Ovelse ovelse)
-    {
-        return this.ovelser.remove(ovelse);
-    }
 
     public int getOktNr()
     {

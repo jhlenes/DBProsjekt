@@ -5,6 +5,8 @@ import treningsdagbok.Treningsokt;
 
 import java.sql.*;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TreningsoktManager
 {
@@ -28,8 +30,9 @@ public class TreningsoktManager
         }
     }
 
-    public boolean loadOvelserToTreningsokt(Treningsokt treningsokt)
+    public List<Ovelse> getOvelserFor(Treningsokt treningsokt)
     {
+        List<Ovelse> ovelser = new ArrayList<>();
         int oktNr = treningsokt.getOktNr();
         String sql = "SELECT * FROM Treningsokt_har_ovelse WHERE oktNr = " + oktNr + ";";
         try (ResultSet res = connection.createStatement().executeQuery(sql))
@@ -39,29 +42,23 @@ public class TreningsoktManager
                 int ovelseNr = res.getInt(1);
                 String navn = res.getString(2);
                 String beskrivelse = res.getString(3);
-                treningsokt.addOvelse(new Ovelse(ovelseNr, navn, beskrivelse));
+                ovelser.add(new Ovelse(ovelseNr, navn, beskrivelse));
             }
         } catch (SQLException e)
         {
             e.printStackTrace();
-            return false;
+            return ovelser;
         }
-        return true;
+        return ovelser;
     }
 
-
-    /**
-     * FUNKER IKKE!!!!!!!!!!!
-     * @param treningsokt
-     * @return
-     */
-    public boolean addTreningsokt(Treningsokt treningsokt)
+    public boolean addTreningsokt(int varighet, int form, int prestasjon, String notat, int luftkvalitet, int temperatur)
     {
-        int oktNr = treningsokt.getOktNr();
-        Date dato = treningsokt.getDato();
+        Date dato = new Date(System.currentTimeMillis());
+        Time tidspunkt = new Time(System.currentTimeMillis());
 
-
-        String sql = "INSERT INTO Treningsokt VALUES (oktNr, dato, tidspunkt, varighet, form, prestasjon, notat, luftkvalitet, temperatur)";
+        String sql = "INSERT INTO Treningsokt VALUES (NULL, '" + dato + "', '" + tidspunkt + "', " + varighet + ", " + form + ", " + prestasjon +
+                ", '" + notat + "', " + luftkvalitet + ", " + temperatur + ");";
         return updateSQL(sql);
     }
 

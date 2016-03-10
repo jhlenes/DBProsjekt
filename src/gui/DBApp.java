@@ -1,7 +1,6 @@
 package gui;
 
 import database.Database;
-import javafx.scene.Parent;
 import treningsdagbok.Maal;
 import treningsdagbok.Ovelse;
 
@@ -28,6 +27,10 @@ public class DBApp extends Application
 {
     private Database database;
     private Stage window;
+
+    private TabPane tabPane;
+
+    private Scene main;
     private Scene ovelserScene;
 
     private ListView<Ovelse> ovelseListView;
@@ -51,16 +54,38 @@ public class DBApp extends Application
         // Setup database connection
         database = new Database();
 
-        // Create scene
+        // Create scenes
         GridPane layout = setupOvelseScene();
         ovelserScene = new Scene(layout, 500, 500);
+
+        GridPane oktLayout = setupOktScene();
+
+        // Use tabPane
+        tabPane = new TabPane();
+        Tab tabOkter = new Tab();
+        tabOkter.setText("Treningsøkter");
+        tabOkter.setContent(oktLayout);
+
+        Tab tabOvelser = new Tab();
+        tabOvelser.setText("Øvelser");
+        tabOvelser.setContent(layout);
+
+        tabPane.getTabs().addAll(tabOkter, tabOvelser);
+
+        main = new Scene(tabPane, 500, 500);
 
         // Setup Window
         window = primaryStage;
         window.setTitle("Treningsdagbok");
-        window.setScene(ovelserScene);
+        window.setScene(main);
         window.show();
     }
+
+    private GridPane setupOktScene()
+    {
+        return new GridPane();
+    }
+
 
     private GridPane setupOvelseScene()
     {
@@ -152,14 +177,16 @@ public class DBApp extends Application
                 ovelseObservableList.add(database.getOvelseManager().getOvelse(tfNavn.getText()));
                 tfNavn.clear();
                 tfBeskrivelse.clear();
-                window.setScene(ovelserScene);
+                tabPane.getSelectionModel().select(1);
+                window.setScene(main);
             }
         });
         Button avbryt = new Button("Avbryt");
         avbryt.setOnAction(event -> {   // Go back to previous screen
             tfNavn.clear();
             tfBeskrivelse.clear();
-            window.setScene(ovelserScene);
+            tabPane.getSelectionModel().select(1);
+            window.setScene(main);
         });
 
         HBox hbButtons = new HBox();
@@ -207,14 +234,16 @@ public class DBApp extends Application
                 ovelseListView.refresh();
                 tfNavn.clear();
                 tfBeskrivelse.clear();
-                window.setScene(ovelserScene);
+                tabPane.getSelectionModel().select(1);
+                window.setScene(main);
             }
         });
         Button avbryt = new Button("Avbryt");
         avbryt.setOnAction(event -> {   // Go back to previous screen
             tfNavn.clear();
             tfBeskrivelse.clear();
-            window.setScene(ovelserScene);
+            tabPane.getSelectionModel().select(1);
+            window.setScene(main);
         });
 
         HBox hbButtons = new HBox();
@@ -277,7 +306,8 @@ public class DBApp extends Application
 
             Button buttonTilbake = new Button("Tilbake");
             buttonTilbake.setOnAction(e -> {
-                window.setScene(ovelserScene);
+                tabPane.getSelectionModel().select(1);
+                window.setScene(main);
             });
 
             // Equal sized buttons
@@ -357,5 +387,7 @@ public class DBApp extends Application
         }
 
     }
+
+
 
 }
