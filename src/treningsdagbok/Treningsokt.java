@@ -32,17 +32,17 @@ public class Treningsokt
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "Treningsøkt den " +
-                 dato +
+                dato +
                 " kl: " + tidspunkt +
                 ", varighet: " + varighet +
                 ", formen: " + form +
                 ", prestasjonen: " + prestasjon +
                 ", luftkvaliteten: " + luftkvalitet +
                 ", temperaturen: " + temperatur +
-                ", notat: " + notat + '\'' +
-                '}';
+                ", notat: " + notat + "}";
     }
 
     public int getOktNr()
@@ -50,19 +50,9 @@ public class Treningsokt
         return oktNr;
     }
 
-    public void setOktNr(int oktNr)
-    {
-        this.oktNr = oktNr;
-    }
-
     public Date getDato()
     {
         return dato;
-    }
-
-    public void setDato(Date dato)
-    {
-        this.dato = dato;
     }
 
     public Time getTidspunkt()
@@ -70,19 +60,9 @@ public class Treningsokt
         return tidspunkt;
     }
 
-    public void setTidspunkt(Time tidspunkt)
-    {
-        this.tidspunkt = tidspunkt;
-    }
-
     public int getVarighet()
     {
         return varighet;
-    }
-
-    public void setVarighet(int varighet)
-    {
-        this.varighet = varighet;
     }
 
     public int getForm()
@@ -90,19 +70,9 @@ public class Treningsokt
         return form;
     }
 
-    public void setForm(int form)
-    {
-        this.form = form;
-    }
-
     public int getPrestasjon()
     {
         return prestasjon;
-    }
-
-    public void setPrestasjon(int prestasjon)
-    {
-        this.prestasjon = prestasjon;
     }
 
     public String getNotat()
@@ -110,31 +80,14 @@ public class Treningsokt
         return notat;
     }
 
-    public void setNotat(String notat)
-    {
-        this.notat = notat;
-    }
-
     public int getLuftkvalitet()
     {
         return luftkvalitet;
-    }
-
-    public void setLuftkvalitet(int luftkvalitet)
-    {
-        this.luftkvalitet = luftkvalitet;
     }
 
     public int getTemperatur()
     {
         return temperatur;
     }
-
-    public void setTemperatur(int temperatur)
-    {
-        this.temperatur = temperatur;
-    }
-
-
 
 }

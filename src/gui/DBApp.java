@@ -96,8 +96,9 @@ public class DBApp extends Application
         List<Treningsokt> okter = database.getTreningsoktManager().getTreningsokter();
         ObservableList<Treningsokt> treningsoktObservableList = FXCollections.observableArrayList(okter);
         ListView<Treningsokt> treningsoktListView = new ListView<>(treningsoktObservableList);
-        grid.add(treningsoktListView, 0, 1, 3, 4);
-        treningsoktListView.setPrefWidth(450);
+        grid.add(treningsoktListView, 0, 1, 5, 4);
+
+        treningsoktListView.setPrefWidth(500);
 
         Button buttonLeggTil = new Button("Legg til");
         buttonLeggTil.setOnAction(e -> {
@@ -159,9 +160,9 @@ public class DBApp extends Application
             int varighet = Integer.parseInt(tfVarighet.getText());
             int form = Integer.parseInt(tfForm.getText());
             int prestasjon = Integer.parseInt(tfPrestasjon.getText());
-            String notat = tfForm.getText();
-            int luftkvalitet = Integer.parseInt(tfForm.getText());
-            int temperatur = Integer.parseInt(tfForm.getText());
+            String notat = tfNotat.getText();
+            int luftkvalitet = Integer.parseInt(tfLuftkvalitet.getText());
+            int temperatur = Integer.parseInt(tfTemperatur.getText());
 
             if (database.getTreningsoktManager().addTreningsokt(varighet,form,prestasjon,notat,luftkvalitet,temperatur))
             {
@@ -191,11 +192,11 @@ public class DBApp extends Application
         grid.add(labelNotat, 0, 4);
         grid.add(tfNotat, 1, 4);
         grid.add(labelLuftkvalitet, 0, 5);
-        grid.add(tfNotat, 1, 5);
+        grid.add(tfLuftkvalitet, 1, 5);
         grid.add(labelTemperatur, 0, 6);
         grid.add(tfTemperatur, 1, 6);
 
-        grid.add(hbButtons, 7, 4, 1, 1);
+        grid.add(hbButtons, 1, 7, 3, 1);
 
         return grid;
     }
