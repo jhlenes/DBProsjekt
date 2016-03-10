@@ -10,6 +10,15 @@ public class Resultater {
     private int repitisjoner;
     private int oktNr;
 
+    public Resultater(int ovelseNr, int belastning, int sett, int repitisjoner, int oktNr) {
+        this.ovelseNr = ovelseNr;
+        this.belastning = belastning;
+        this.sett = sett;
+        this.repitisjoner = repitisjoner;
+        this.oktNr = oktNr;
+    }
+
+
     public int getOktNr() {
         return oktNr;
     }

@@ -43,4 +43,26 @@ public class ResultatManager {
         String sql = "DELETE FROM Resultater WHERE oktNr = '" + oktNr + "' AND ovelseNr = '"+ovelseNr+"';";
         return updateSQL(sql);
     }
+
+    public Resultater getResultat(int ovelseNr)
+    {
+        String sql = "SELECT * FROM Resultater WHERE ovelseNr = '"+ovelseNr+"' ORDER BY belastning DESC ;";
+        try (Statement statement = connection.createStatement())
+        {
+            ResultSet res = statement.executeQuery(sql);
+            if (res.next())
+            {
+                int ovelseNr2 = res.getInt(1);
+                int belastning = res.getInt(2);
+                int sett = res.getInt(3);
+                int repitisjoner = res.getInt(4);
+                int oktNr = res.getInt(5);
+                return new Resultater (ovelseNr2,belastning,sett,repitisjoner,oktNr);
+            }
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
