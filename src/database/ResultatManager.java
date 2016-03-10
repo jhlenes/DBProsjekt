@@ -33,4 +33,9 @@ public class ResultatManager {
             return false;
         }
     }
+
+    public boolean addResultat (int oktNr, int ovelseNr, int belastning, int sett, int repitisjoner){
+        String sql = "INSERT INTO Resultater VALUES ('"+belastning+"','"+repitisjoner+"','"+sett+"','"+oktNr+"','"+ovelseNr+"');";
+        return updateSQL(sql);
+    }
 }
