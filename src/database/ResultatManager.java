@@ -13,7 +13,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ResultatManager {
+public class ResultatManager
+{
     private Connection connection;
 
     public ResultatManager(Connection connection)
@@ -34,35 +35,38 @@ public class ResultatManager {
         }
     }
 
-    public boolean addResultat (int oktNr, int ovelseNr, int belastning, int sett, int repitisjoner){
-        String sql = "INSERT INTO Resultater VALUES ('"+belastning+"','"+repitisjoner+"','"+sett+"','"+oktNr+"','"+ovelseNr+"');";
-        return updateSQL(sql);
-    }
-
-    public boolean deleteResultat (int oktNr, int ovelseNr){
-        String sql = "DELETE FROM Resultater WHERE oktNr = '" + oktNr + "' AND ovelseNr = '"+ovelseNr+"';";
-        return updateSQL(sql);
-    }
-
-    public Resultater getResultat(int ovelseNr)
+    public boolean addResultat(int oktNr, int ovelseNr, int belastning, int sett, int repitisjoner)
     {
-        String sql = "SELECT * FROM Resultater WHERE ovelseNr = '"+ovelseNr+"' ORDER BY belastning DESC ;";
+        String sql = "INSERT INTO Resultater VALUES ('" + belastning + "','" + repitisjoner + "','" + sett + "','" + oktNr + "','" + ovelseNr + "');";
+        return updateSQL(sql);
+    }
+
+    public boolean deleteResultat(int oktNr, int ovelseNr)
+    {
+        String sql = "DELETE FROM Resultater WHERE oktNr = '" + oktNr + "' AND ovelseNr = '" + ovelseNr + "';";
+        return updateSQL(sql);
+    }
+
+    public List<Resultater> getResultat(int ovelseNr)
+    {
+        List<Resultater> resultater = new ArrayList<>();
+        String sql = "SELECT * FROM Resultat WHERE ovelseNr = '" + ovelseNr + "' ORDER BY belastning DESC ;";
         try (Statement statement = connection.createStatement())
         {
             ResultSet res = statement.executeQuery(sql);
-            if (res.next())
+            while (res.next())
             {
                 int ovelseNr2 = res.getInt(1);
                 int belastning = res.getInt(2);
                 int sett = res.getInt(3);
                 int repitisjoner = res.getInt(4);
                 int oktNr = res.getInt(5);
-                return new Resultater (ovelseNr2,belastning,sett,repitisjoner,oktNr);
+                resultater.add(new Resultater(ovelseNr2, belastning, sett, repitisjoner, oktNr));
             }
         } catch (SQLException e)
         {
             e.printStackTrace();
         }
-        return null;
+        return resultater;
     }
 }

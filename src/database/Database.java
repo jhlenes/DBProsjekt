@@ -12,6 +12,7 @@ public class Database
     private OvelseManager ovelseManager;
     private MaalManager maalManager;
     private TreningsoktManager treningsoktManager;
+    private ResultatManager resultatManager;
 
     public Database()
     {
@@ -27,6 +28,7 @@ public class Database
             ovelseManager = new OvelseManager(connection);
             maalManager = new MaalManager(connection);
             treningsoktManager = new TreningsoktManager(connection);
+            resultatManager = new ResultatManager(connection);
 
 
         } catch (Exception e)
@@ -54,6 +56,12 @@ public class Database
     {
         return treningsoktManager;
     }
+
+    public ResultatManager getResultatManager()
+    {
+        return resultatManager;
+    }
+
 
     /**
      * Example code

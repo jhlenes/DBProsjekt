@@ -86,18 +86,26 @@ public class OvelsePane extends GridPane
             window.setScene(scene);
         });
 
+        Button buttonResultat = new Button("Resultater");
+        buttonResultat.setOnAction(e -> {
+            Ovelse ovelse = ovelseListView.getSelectionModel().getSelectedItem();
+            Scene scene = new Scene(new ResultatPane(database, window, main, tabPane, ovelse), DBApp.SIZE_X, DBApp.SIZE_Y);
+            window.setScene(scene);
+        });
+
         // Equal sized buttons
         buttonLeggTil.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         buttonEndre.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         buttonSlett.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         buttonMaal.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        buttonResultat.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
         // Buttons properties
         TilePane tileButtons = new TilePane(Orientation.HORIZONTAL);
         tileButtons.setPadding(new Insets(20, 10, 20, 0));
         tileButtons.setHgap(10);
         tileButtons.setVgap(10);
-        tileButtons.getChildren().addAll(buttonLeggTil, buttonEndre, buttonSlett, buttonMaal);
+        tileButtons.getChildren().addAll(buttonLeggTil, buttonEndre, buttonSlett, buttonMaal, buttonResultat);
 
         // Add buttons to grid
         add(tileButtons, 0, 5, 4, 1);
