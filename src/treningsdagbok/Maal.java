@@ -84,6 +84,6 @@ public class Maal {
     @Override
     public String toString()
     {
-        return dato + ": " + sett + "x" + repetisjoner + "x" + belastning + "kg";
+        return dato + ": " + sett + " x " + repetisjoner + " x " + belastning + " kg";
     }
 }

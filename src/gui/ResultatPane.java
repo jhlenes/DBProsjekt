@@ -72,6 +72,21 @@ public class ResultatPane extends GridPane
             window.setScene(main);
         });
 
+        CheckBox toppTi = new CheckBox("Vis kun topp 10");
+        toppTi.setOnAction(event -> {
+            if (toppTi.isSelected())
+            {
+                resultaterObservableList.clear();
+                List<Resultater> resultater = database.getResultatManager().getToppTiResultat(ovelse.getOvelseNr());
+                resultaterObservableList.addAll(resultater);
+            } else
+            {
+                resultaterObservableList.clear();
+                List<Resultater> resultater = database.getResultatManager().getResultat(ovelse.getOvelseNr());
+                resultaterObservableList.addAll(resultater);
+            }
+        });
+
         // Equal sized buttons
         buttonSlett.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         buttonTilbake.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
@@ -80,7 +95,7 @@ public class ResultatPane extends GridPane
         tileButtons.setPadding(new Insets(20, 10, 20, 0));
         tileButtons.setHgap(10);
         tileButtons.setVgap(10);
-        tileButtons.getChildren().addAll(buttonSlett, buttonTilbake);
+        tileButtons.getChildren().addAll(buttonSlett, buttonTilbake, toppTi);
 
         add(tileButtons, 0, 5, 4, 1);
     }

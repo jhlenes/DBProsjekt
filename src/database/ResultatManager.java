@@ -50,17 +50,40 @@ public class ResultatManager
     public List<Resultater> getResultat(int ovelseNr)
     {
         List<Resultater> resultater = new ArrayList<>();
-        String sql = "SELECT * FROM Resultat WHERE ovelseNr = '" + ovelseNr + "' ORDER BY belastning DESC ;";
+        String sql = "SELECT * FROM Resultat WHERE ovelseNr = " + ovelseNr + ";";
         try (Statement statement = connection.createStatement())
         {
             ResultSet res = statement.executeQuery(sql);
             while (res.next())
             {
-                int ovelseNr2 = res.getInt(1);
-                int belastning = res.getInt(2);
+                int belastning = res.getInt(1);
+                int repitisjoner = res.getInt(2);
                 int sett = res.getInt(3);
-                int repitisjoner = res.getInt(4);
-                int oktNr = res.getInt(5);
+                int oktNr = res.getInt(4);
+                int ovelseNr2 = res.getInt(5);
+                resultater.add(new Resultater(ovelseNr2, belastning, sett, repitisjoner, oktNr));
+            }
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return resultater;
+    }
+
+    public List<Resultater> getToppTiResultat(int ovelseNr)
+    {
+        List<Resultater> resultater = new ArrayList<>();
+        String sql = "SELECT * FROM Resultat WHERE ovelseNr = '" + ovelseNr + "' ORDER BY belastning DESC LIMIT 10;";
+        try (Statement statement = connection.createStatement())
+        {
+            ResultSet res = statement.executeQuery(sql);
+            while (res.next())
+            {
+                int belastning = res.getInt(1);
+                int repitisjoner = res.getInt(2);
+                int sett = res.getInt(3);
+                int oktNr = res.getInt(4);
+                int ovelseNr2 = res.getInt(5);
                 resultater.add(new Resultater(ovelseNr2, belastning, sett, repitisjoner, oktNr));
             }
         } catch (SQLException e)

@@ -7,14 +7,14 @@ public class Resultater {
     private int ovelseNr;
     private int belastning;
     private  int sett;
-    private int repitisjoner;
+    private int repetisjoner;
     private int oktNr;
 
-    public Resultater(int ovelseNr, int belastning, int sett, int repitisjoner, int oktNr) {
+    public Resultater(int ovelseNr, int belastning, int sett, int repetisjoner, int oktNr) {
         this.ovelseNr = ovelseNr;
         this.belastning = belastning;
         this.sett = sett;
-        this.repitisjoner = repitisjoner;
+        this.repetisjoner = repetisjoner;
         this.oktNr = oktNr;
     }
 
@@ -51,18 +51,16 @@ public class Resultater {
         this.sett = sett;
     }
 
-    public int getRepitisjoner() {
-        return repitisjoner;
+    public int getRepetisjoner() {
+        return repetisjoner;
     }
 
-    public void setRepitisjoner(int repitisjoner) {
-        this.repitisjoner = repitisjoner;
+    public void setRepetisjoner(int repetisjoner) {
+        this.repetisjoner = repetisjoner;
     }
 
     @Override
     public String toString() {
-        return "belastning = " + belastning +
-                ", sett = " + sett +
-                ", repitisjoner = " + repitisjoner ;
+        return sett + " x " + repetisjoner + " x " + belastning + " kg";
     }
 }
