@@ -34,7 +34,8 @@ public class TreningsoktManager
     {
         List<Ovelse> ovelser = new ArrayList<>();
         int oktNr = treningsokt.getOktNr();
-        String sql = "SELECT * FROM Treningsokt_har_ovelse WHERE oktNr = " + oktNr + ";";
+        String sql = "SELECT Ovelse.ovelseNr, Ovelse.navn, Ovelse.beskrivelse FROM Treningsokt_har_ovelse INNER JOIN Ovelse" +
+                " ON Treningsokt_har_ovelse.ovelseNr = Ovelse.ovelseNr  WHERE oktNr = " + oktNr + ";";
         try (ResultSet res = connection.createStatement().executeQuery(sql))
         {
             while (res.next())

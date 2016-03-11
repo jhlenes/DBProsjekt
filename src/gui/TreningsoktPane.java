@@ -74,10 +74,16 @@ public class TreningsoktPane extends GridPane
             }
         });
 
+        Button buttonOvelser = new Button("Se øvelser");
+        buttonOvelser.setOnAction(e -> {
+            Treningsokt treningsokt = treningsoktListView.getSelectionModel().getSelectedItem();
+            Scene scene = new Scene(new TreningsoktOvelserPane(database, window, main, tabPane, treningsokt), DBApp.SIZE_X, DBApp.SIZE_Y);
+            window.setScene(scene);
+        });
+
         Button buttonLogg = new Button("Logg");
         buttonLogg.setOnAction(e -> {
 
-            List<String> logg = database.getTreningsoktManager().getTreningsNotater();
             Scene scene = new Scene(new LoggPane(database, window, main, tabPane), DBApp.SIZE_X, DBApp.SIZE_Y);
             window.setScene(scene);
         });
@@ -85,6 +91,7 @@ public class TreningsoktPane extends GridPane
         // Equal sized buttons
         buttonLeggTil.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         buttonSlett.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        buttonOvelser.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         buttonLogg.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
         // Buttons properties
@@ -92,7 +99,7 @@ public class TreningsoktPane extends GridPane
         tileButtons.setPadding(new Insets(20, 10, 20, 0));
         tileButtons.setHgap(10);
         tileButtons.setVgap(10);
-        tileButtons.getChildren().addAll(buttonLeggTil, buttonSlett, buttonLogg);
+        tileButtons.getChildren().addAll(buttonLeggTil, buttonSlett, buttonOvelser, buttonLogg);
 
         // Add buttons to grid
         add(tileButtons, 0, 5, 4, 1);
