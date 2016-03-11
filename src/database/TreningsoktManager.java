@@ -112,4 +112,37 @@ public class TreningsoktManager
         }
         return notater;
     }
+
+    public void addOvelserTo(int oktNr, List<Ovelse> ovelser)
+    {
+        for (Ovelse ovelse : ovelser)
+        {
+            int ovelseNr = ovelse.getOvelseNr();
+            String sql = "INSERT INTO Treningsokt_har_ovelse VALUES ( " + oktNr + ", " + ovelseNr + ");";
+            updateSQL(sql);
+        }
+    }
+
+    public void addOvelserToLatest(List<Ovelse> ovelser)
+    {
+        String sql = "SELECT MAX(oktNr) FROM Treningsokt;";
+        try (ResultSet res = connection.createStatement().executeQuery(sql))
+        {
+            while (res.next())
+            {
+                int oktNr = res.getInt(1);
+
+                for (Ovelse ovelse : ovelser)
+                {
+                    int ovelseNr = ovelse.getOvelseNr();
+                    String sql2 = "INSERT INTO Treningsokt_har_ovelse VALUES ( " + oktNr + ", " + ovelseNr + ");";
+                    updateSQL(sql2);
+                }
+            }
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
 }

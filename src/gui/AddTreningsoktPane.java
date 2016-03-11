@@ -7,16 +7,14 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import treningsdagbok.Ovelse;
 import treningsdagbok.Treningsokt;
 
 import java.util.List;
@@ -52,6 +50,10 @@ public class AddTreningsoktPane extends GridPane
         label.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
         add(label, 0, 0, 2, 1);
 
+        Label label2 = new Label("Velg øvelser:");
+        label2.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
+        add(label2, 4, 0, 2, 1);
+
         // Column properties
         ColumnConstraints column1 = new ColumnConstraints();
         column1.setHalignment(HPos.RIGHT);
@@ -72,6 +74,13 @@ public class AddTreningsoktPane extends GridPane
         Label labelTemperatur = new Label("Temperatur:");
         TextField tfTemperatur = new TextField();
 
+        List<Ovelse> ovelser = database.getOvelseManager().getOvelser();
+        ObservableList<Ovelse> ovelseObservableList = FXCollections.observableArrayList(ovelser);
+        ListView<Ovelse> ovelseListView = new ListView<>(ovelseObservableList);
+        ovelseListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        ovelseListView.setMaxSize(Double.MAX_VALUE, DBApp.SIZE_Y / 2);
+        add(ovelseListView, 4, 1, 3, 8);
+
         // Setup buttons
         Button buttonLeggTil = new Button("Legg til");
         buttonLeggTil.setOnAction(e -> {
@@ -87,6 +96,11 @@ public class AddTreningsoktPane extends GridPane
             // If addition to database was successful, add locally
             if (database.getTreningsoktManager().addTreningsokt(varighet, form, prestasjon, notat, luftkvalitet, temperatur))
             {
+
+                // Add ovelser to treningsokt
+                List<Ovelse> selectedOvelser = ovelseListView.getSelectionModel().getSelectedItems();
+                database.getTreningsoktManager().addOvelserToLatest(selectedOvelser);
+
                 treningsoktObservableList.clear();
                 List<Treningsokt> treningsokter = database.getTreningsoktManager().getTreningsokter();
                 treningsoktObservableList.addAll(treningsokter);
