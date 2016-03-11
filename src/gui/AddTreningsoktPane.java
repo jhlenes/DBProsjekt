@@ -63,16 +63,22 @@ public class AddTreningsoktPane extends GridPane
         // Setup components
         Label labelVarighet = new Label("Varighet:");
         TextField tfVarighet = new TextField();
+        tfVarighet.setPromptText("Antall minutter");
         Label labelForm = new Label("Form:");
         TextField tfForm = new TextField();
+        tfForm.setPromptText("1-10");
         Label labelPrestasjon = new Label("Prestasjon:");
         TextField tfPrestasjon = new TextField();
-        Label labelNotat = new Label("Notat:");
-        TextField tfNotat = new TextField();
+        tfPrestasjon.setPromptText("1-10");
         Label labelLuftkvalitet = new Label("Luftkvalitet:");
         TextField tfLuftkvalitet = new TextField();
+        tfLuftkvalitet.setPromptText("1-10");
         Label labelTemperatur = new Label("Temperatur:");
         TextField tfTemperatur = new TextField();
+        tfTemperatur.setPromptText("Heltall");
+        Label labelNotat = new Label("Notat:");
+        TextField tfNotat = new TextField();
+        tfNotat.setPromptText("Beskriv din treningsøkt");
 
         List<Ovelse> ovelser = database.getOvelseManager().getOvelser();
         ObservableList<Ovelse> ovelseObservableList = FXCollections.observableArrayList(ovelser);
@@ -132,12 +138,12 @@ public class AddTreningsoktPane extends GridPane
         add(tfForm, 1, 2);
         add(labelPrestasjon, 0, 3);
         add(tfPrestasjon, 1, 3);
-        add(labelNotat, 0, 4);
-        add(tfNotat, 1, 4);
+        add(labelTemperatur, 0, 4);
+        add(tfTemperatur, 1, 4);
         add(labelLuftkvalitet, 0, 5);
         add(tfLuftkvalitet, 1, 5);
-        add(labelTemperatur, 0, 6);
-        add(tfTemperatur, 1, 6);
+        add(labelNotat, 0, 6);
+        add(tfNotat, 1, 6);
         add(hbButtons, 1, 7, 3, 1);
     }
 }
