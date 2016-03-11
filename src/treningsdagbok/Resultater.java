@@ -58,4 +58,11 @@ public class Resultater {
     public void setRepitisjoner(int repitisjoner) {
         this.repitisjoner = repitisjoner;
     }
+
+    @Override
+    public String toString() {
+        return "belastning = " + belastning +
+                ", sett = " + sett +
+                ", repitisjoner = " + repitisjoner ;
+    }
 }

@@ -27,8 +27,8 @@ import java.util.List;
 public class DBApp extends Application
 {
     // Window constraints
-    public final static int SIZE_X = 1333;
-    public final static int SIZE_Y = 750;
+    public final static int SIZE_X = 1000;
+    public final static int SIZE_Y = 600;
 
     // Database connection
     private Database database;

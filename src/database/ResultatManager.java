@@ -69,4 +69,6 @@ public class ResultatManager
         }
         return resultater;
     }
+
+
 }
