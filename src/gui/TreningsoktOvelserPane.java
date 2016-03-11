@@ -61,6 +61,11 @@ public class TreningsoktOvelserPane extends GridPane
 
         // Setup buttons
         Button buttonLeggTil = new Button("Legg til");
+        buttonLeggTil.setOnAction(e -> {
+            Ovelse ovelse = ovelseListView.getSelectionModel().getSelectedItem();
+            Scene scene = new Scene(new AddResultatPane(database, window, main, tabPane, treningsokt, ovelse), DBApp.SIZE_X, DBApp.SIZE_Y);
+            window.setScene(scene);
+        });
 
         Button buttonTilbake = new Button("Tilbake");
         buttonTilbake.setOnAction(e -> {
@@ -76,7 +81,7 @@ public class TreningsoktOvelserPane extends GridPane
         tileButtons.setPadding(new Insets(20, 10, 20, 0));
         tileButtons.setHgap(10);
         tileButtons.setVgap(10);
-        tileButtons.getChildren().addAll(buttonTilbake);
+        tileButtons.getChildren().addAll(buttonLeggTil, buttonTilbake);
 
         // Add buttons to grid
         add(tileButtons, 0, 5, 4, 1);

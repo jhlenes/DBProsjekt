@@ -37,13 +37,13 @@ public class ResultatManager
 
     public boolean addResultat(int oktNr, int ovelseNr, int belastning, int sett, int repitisjoner)
     {
-        String sql = "INSERT INTO Resultater VALUES ('" + belastning + "','" + repitisjoner + "','" + sett + "','" + oktNr + "','" + ovelseNr + "');";
+        String sql = "INSERT INTO Resultat VALUES ('" + belastning + "','" + repitisjoner + "','" + sett + "','" + oktNr + "','" + ovelseNr + "');";
         return updateSQL(sql);
     }
 
     public boolean deleteResultat(int oktNr, int ovelseNr)
     {
-        String sql = "DELETE FROM Resultater WHERE oktNr = '" + oktNr + "' AND ovelseNr = '" + ovelseNr + "';";
+        String sql = "DELETE FROM Resultat WHERE oktNr = '" + oktNr + "' AND ovelseNr = '" + ovelseNr + "';";
         return updateSQL(sql);
     }
 
