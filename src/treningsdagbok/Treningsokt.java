@@ -5,7 +5,6 @@ import java.sql.Time;
 
 public class Treningsokt
 {
-
     private int oktNr;
     private Date dato;
     private Time tidspunkt;
@@ -32,15 +31,14 @@ public class Treningsokt
     @Override
     public String toString()
     {
-        return "Treningsøkt den " +
-                dato +
-                " kl: " + tidspunkt +
-                ", varighet: " + varighet +
-                ", formen: " + form +
-                ", prestasjonen: " + prestasjon +
-                ", luftkvaliteten: " + luftkvalitet +
-                ", temperaturen: " + temperatur +
-                ", notat: " + notat;
+        return "Treningsøkt " + getDato() +
+                " kl: " + getTidspunkt() +
+                ", varighet: " + getVarighet() +
+                ", formen: " + getForm() +
+                ", prestasjonen: " + getPrestasjon() +
+                ", luftkvaliteten: " + getLuftkvalitet() +
+                ", temperaturen: " + getTemperatur() +
+                ", notat: " + getNotat();
     }
 
     public int getOktNr()

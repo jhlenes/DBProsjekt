@@ -14,7 +14,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import treningsdagbok.Ovelse;
-import treningsdagbok.Resultater;
+import treningsdagbok.Resultat;
 
 import java.util.List;
 
@@ -45,24 +45,24 @@ public class ResultatPane extends GridPane
         setPadding(new Insets(25, 25, 25, 25));
 
         // Label on top
-        Label label = new Label("Resultater for " + ovelse.getNavn() + ":");
+        Label label = new Label("Resultat for " + ovelse.getNavn() + ":");
         label.setFont(Font.font("Verdana", FontWeight.BOLD, 30));
         add(label, 0, 0, 3, 1);
 
         // Setup list of resultater for given ovelse
-        List<Resultater> resultatList = database.getResultatManager().getResultat(ovelse.getOvelseNr());
-        ObservableList<Resultater> resultaterObservableList = FXCollections.observableArrayList(resultatList);
-        ListView<Resultater> resultaterListView = new ListView<>(resultaterObservableList);
+        List<Resultat> resultatList = database.getResultatManager().getResultater(ovelse.getOvelseNr());
+        ObservableList<Resultat> resultatObservableList = FXCollections.observableArrayList(resultatList);
+        ListView<Resultat> resultaterListView = new ListView<>(resultatObservableList);
         resultaterListView.setPrefWidth(DBApp.SIZE_X / 2);
         add(resultaterListView, 0, 1, 3, 4);
 
         // Setup buttons
         Button buttonSlett = new Button("Slett");
         buttonSlett.setOnAction(e -> {
-            Resultater resultat = resultaterListView.getSelectionModel().getSelectedItem();
+            Resultat resultat = resultaterListView.getSelectionModel().getSelectedItem();
             if (database.getResultatManager().deleteResultat(resultat.getOktNr(), resultat.getOvelseNr()))
             {
-                resultaterObservableList.remove(resultat);
+                resultatObservableList.remove(resultat);
             }
         });
 
@@ -76,14 +76,14 @@ public class ResultatPane extends GridPane
         toppTi.setOnAction(event -> {
             if (toppTi.isSelected())
             {
-                resultaterObservableList.clear();
-                List<Resultater> resultater = database.getResultatManager().getToppTiResultat(ovelse.getOvelseNr());
-                resultaterObservableList.addAll(resultater);
+                resultatObservableList.clear();
+                List<Resultat> resultat = database.getResultatManager().getToppTiResultater(ovelse.getOvelseNr());
+                resultatObservableList.addAll(resultat);
             } else
             {
-                resultaterObservableList.clear();
-                List<Resultater> resultater = database.getResultatManager().getResultat(ovelse.getOvelseNr());
-                resultaterObservableList.addAll(resultater);
+                resultatObservableList.clear();
+                List<Resultat> resultat = database.getResultatManager().getResultater(ovelse.getOvelseNr());
+                resultatObservableList.addAll(resultat);
             }
         });
 

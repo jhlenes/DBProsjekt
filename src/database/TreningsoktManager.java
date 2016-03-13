@@ -4,7 +4,6 @@ import treningsdagbok.Ovelse;
 import treningsdagbok.Treningsokt;
 
 import java.sql.*;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,19 +14,6 @@ public class TreningsoktManager
     public TreningsoktManager(Connection connection)
     {
         this.connection = connection;
-    }
-
-    private boolean updateSQL(String sql)
-    {
-        try (Statement statement = connection.createStatement())
-        {
-            statement.executeUpdate(sql);
-            return true;
-        } catch (SQLException e)
-        {
-            e.printStackTrace();
-            return false;
-        }
     }
 
     public List<Ovelse> getOvelserFor(Treningsokt treningsokt)
@@ -60,13 +46,13 @@ public class TreningsoktManager
 
         String sql = "INSERT INTO Treningsokt VALUES (NULL, '" + dato + "', '" + tidspunkt + "', " + varighet + ", " + form + ", " + prestasjon +
                 ", '" + notat + "', " + luftkvalitet + ", " + temperatur + ");";
-        return updateSQL(sql);
+        return Database.updateSQL(sql, connection);
     }
 
     public boolean deleteTreningsokt(int oktNr)
     {
         String sql = "DELETE FROM Treningsokt WHERE oktNr = " + oktNr + ";";
-        return updateSQL(sql);
+        return Database.updateSQL(sql, connection);
     }
 
     public List<Treningsokt> getTreningsokter()
@@ -97,17 +83,21 @@ public class TreningsoktManager
         return okter;
     }
 
-    public List<String> getTreningsNotater() {
+    public List<String> getTreningsNotater()
+    {
         List<String> notater = new ArrayList<>();
         String sql = "SELECT dato, notat FROM Treningsokt ORDER BY dato DESC, tidspunkt DESC;";
-        try (ResultSet res = connection.createStatement().executeQuery(sql)) {
-            while (res.next()) {
+        try (ResultSet res = connection.createStatement().executeQuery(sql))
+        {
+            while (res.next())
+            {
                 Date dato = res.getDate(1);
                 String notat = res.getString(2);
 
-                notater.add("Trening den " + dato + ": " + notat);
+                notater.add(dato + ": " + notat);
             }
-        } catch (SQLException e) {
+        } catch (SQLException e)
+        {
             e.printStackTrace();
             return notater;
         }
@@ -120,7 +110,7 @@ public class TreningsoktManager
         {
             int ovelseNr = ovelse.getOvelseNr();
             String sql = "INSERT INTO Treningsokt_har_ovelse VALUES ( " + oktNr + ", " + ovelseNr + ");";
-            updateSQL(sql);
+            Database.updateSQL(sql, connection);
         }
     }
 
@@ -137,7 +127,7 @@ public class TreningsoktManager
                 {
                     int ovelseNr = ovelse.getOvelseNr();
                     String sql2 = "INSERT INTO Treningsokt_har_ovelse VALUES ( " + oktNr + ", " + ovelseNr + ");";
-                    updateSQL(sql2);
+                    Database.updateSQL(sql2, connection);
                 }
             }
         } catch (SQLException e)

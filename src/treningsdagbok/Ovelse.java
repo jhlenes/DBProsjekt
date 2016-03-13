@@ -23,19 +23,9 @@ public class Ovelse
         return navn;
     }
 
-    public void setNavn(String navn)
-    {
-        this.navn = navn;
-    }
-
     public String getBeskrivelse()
     {
         return beskrivelse;
-    }
-
-    public void setBeskrivelse(String beskrivelse)
-    {
-        this.beskrivelse = beskrivelse;
     }
 
     @Override
@@ -49,4 +39,5 @@ public class Ovelse
             return String.format("%s: %s", getNavn(), getBeskrivelse());
         }
     }
+
 }

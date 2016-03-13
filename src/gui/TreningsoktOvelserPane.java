@@ -17,10 +17,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import treningsdagbok.Ovelse;
-import treningsdagbok.OvelseResultat;
 import treningsdagbok.Treningsokt;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TreningsoktOvelserPane extends GridPane
@@ -55,21 +53,8 @@ public class TreningsoktOvelserPane extends GridPane
         add(label, 0, 0, 3, 1);
 
         // Setup list
-        List<Ovelse> ovelser = database.getTreningsoktManager().getOvelserFor(treningsokt);
-        List<Ovelse> ovelseResultater = new ArrayList<>();
-        for (Ovelse ovelse : ovelser)
-        {
-            OvelseResultat ovelseResultat = database.getResultatManager().getOvelseResultat(treningsokt.getOktNr(), ovelse.getOvelseNr());
-            if (ovelseResultat != null)
-            {
-                ovelseResultater.add(ovelseResultat);
-            }
-            else
-            {
-                ovelseResultater.add(ovelse);
-            }
-        }
-        ObservableList<Ovelse> ovelseResultatObservableList = FXCollections.observableArrayList(ovelseResultater);
+        List<Ovelse> ovelseMedResultater = database.getResultatManager().getOvelserMedResultater(treningsokt.getOktNr());
+        ObservableList<Ovelse> ovelseResultatObservableList = FXCollections.observableArrayList(ovelseMedResultater);
         ListView<Ovelse> ovelseResultatListView = new ListView<>(ovelseResultatObservableList);
         add(ovelseResultatListView, 0, 1, 3, 4);
         ovelseResultatListView.setPrefWidth(DBApp.SIZE_X / 2);

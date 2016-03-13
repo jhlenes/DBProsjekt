@@ -11,7 +11,6 @@ import java.util.List;
 
 public class OvelseManager
 {
-
     private Connection connection;
 
     public OvelseManager(Connection connection)
@@ -19,23 +18,10 @@ public class OvelseManager
         this.connection = connection;
     }
 
-    private boolean updateSQL(String sql)
-    {
-        try (Statement statement = connection.createStatement())
-        {
-            statement.executeUpdate(sql);
-            return true;
-        } catch (SQLException e)
-        {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
     public boolean addOvelse(String navn, String beskrivelse)
     {
         String sql = "INSERT INTO Ovelse VALUES (NULL, '" + navn + "', '" + beskrivelse + "');";
-        return updateSQL(sql);
+        return Database.updateSQL(sql, connection);
     }
 
     public boolean editOvelse(int ovelseNr, String nyttNavn, String nyBeskrivelse)
@@ -43,32 +29,13 @@ public class OvelseManager
         String sql = "UPDATE Ovelse " +
                 "SET navn = '" + nyttNavn + "', beskrivelse = '" + nyBeskrivelse + "' " +
                 "WHERE ovelseNr = " + ovelseNr + ";";
-        return updateSQL(sql);
+        return Database.updateSQL(sql, connection);
     }
 
     public boolean deleteOvelse(int ovelseNr)
     {
         String sql = "DELETE FROM Ovelse WHERE ovelseNr = " + ovelseNr + ";";
-        return updateSQL(sql);
-    }
-
-    public Ovelse getOvelse(String navn)
-    {
-        String sql = "SELECT * FROM Ovelse WHERE navn = '" + navn + "';";
-        try (Statement statement = connection.createStatement())
-        {
-            ResultSet res = statement.executeQuery(sql);
-            if (res.next())
-            {
-                int ovelseNr = res.getInt(1);
-                String beskrivelse = res.getString(3);
-                return new Ovelse(ovelseNr, navn, beskrivelse);
-            }
-        } catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-        return null;
+        return Database.updateSQL(sql, connection);
     }
 
     public List<Ovelse> getOvelser()

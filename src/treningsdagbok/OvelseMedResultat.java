@@ -1,24 +1,19 @@
 package treningsdagbok;
 
-public class OvelseResultat extends Ovelse
+public class OvelseMedResultat extends Ovelse
 {
     private int oktNr;
     private int sett;
     private int repetisjoner;
     private int belastning;
 
-    public OvelseResultat(int oktNr, int ovelseNr, String navn, int sett, int repetisjoner, int belastning)
+    public OvelseMedResultat(int oktNr, int ovelseNr, String navn, int sett, int repetisjoner, int belastning)
     {
         super(ovelseNr, navn, "");
         this.oktNr = oktNr;
         this.sett = sett;
         this.repetisjoner = repetisjoner;
         this.belastning = belastning;
-    }
-
-    public int getOktNr()
-    {
-        return oktNr;
     }
 
     public int getSett()
