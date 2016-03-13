@@ -17,8 +17,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import treningsdagbok.Ovelse;
+import treningsdagbok.OvelseResultat;
 import treningsdagbok.Treningsokt;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TreningsoktOvelserPane extends GridPane
@@ -54,15 +56,28 @@ public class TreningsoktOvelserPane extends GridPane
 
         // Setup list
         List<Ovelse> ovelser = database.getTreningsoktManager().getOvelserFor(treningsokt);
-        ObservableList<Ovelse> ovelseObservableList = FXCollections.observableArrayList(ovelser);
-        ListView<Ovelse> ovelseListView = new ListView<>(ovelseObservableList);
-        add(ovelseListView, 0, 1, 3, 4);
-        ovelseListView.setPrefWidth(DBApp.SIZE_X / 2);
+        List<Ovelse> ovelseResultater = new ArrayList<>();
+        for (Ovelse ovelse : ovelser)
+        {
+            OvelseResultat ovelseResultat = database.getResultatManager().getOvelseResultat(treningsokt.getOktNr(), ovelse.getOvelseNr());
+            if (ovelseResultat != null)
+            {
+                ovelseResultater.add(ovelseResultat);
+            }
+            else
+            {
+                ovelseResultater.add(ovelse);
+            }
+        }
+        ObservableList<Ovelse> ovelseResultatObservableList = FXCollections.observableArrayList(ovelseResultater);
+        ListView<Ovelse> ovelseResultatListView = new ListView<>(ovelseResultatObservableList);
+        add(ovelseResultatListView, 0, 1, 3, 4);
+        ovelseResultatListView.setPrefWidth(DBApp.SIZE_X / 2);
 
         // Setup buttons
-        Button buttonLeggTil = new Button("Legg til");
+        Button buttonLeggTil = new Button("Legg til resultat");
         buttonLeggTil.setOnAction(e -> {
-            Ovelse ovelse = ovelseListView.getSelectionModel().getSelectedItem();
+            Ovelse ovelse = ovelseResultatListView.getSelectionModel().getSelectedItem();
             Scene scene = new Scene(new AddResultatPane(database, window, main, tabPane, treningsokt, ovelse), DBApp.SIZE_X, DBApp.SIZE_Y);
             window.setScene(scene);
         });

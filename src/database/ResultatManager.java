@@ -4,6 +4,7 @@ package database;
  * Created by Christian on 10.03.2016.
  */
 
+import treningsdagbok.OvelseResultat;
 import treningsdagbok.Resultater;
 
 import java.sql.Connection;
@@ -49,8 +50,19 @@ public class ResultatManager
 
     public List<Resultater> getResultat(int ovelseNr)
     {
-        List<Resultater> resultater = new ArrayList<>();
         String sql = "SELECT * FROM Resultat WHERE ovelseNr = " + ovelseNr + ";";
+        return selectResultater(sql);
+    }
+
+    public List<Resultater> getToppTiResultat(int ovelseNr)
+    {
+        String sql = "SELECT * FROM Resultat WHERE ovelseNr = '" + ovelseNr + "' ORDER BY belastning DESC LIMIT 10;";
+        return selectResultater(sql);
+    }
+
+    private List<Resultater> selectResultater(String sql)
+    {
+        List<Resultater> resultater = new ArrayList<>();
         try (Statement statement = connection.createStatement())
         {
             ResultSet res = statement.executeQuery(sql);
@@ -60,8 +72,8 @@ public class ResultatManager
                 int repitisjoner = res.getInt(2);
                 int sett = res.getInt(3);
                 int oktNr = res.getInt(4);
-                int ovelseNr2 = res.getInt(5);
-                resultater.add(new Resultater(ovelseNr2, belastning, sett, repitisjoner, oktNr));
+                int ovelseNr = res.getInt(5);
+                resultater.add(new Resultater(ovelseNr, belastning, sett, repitisjoner, oktNr));
             }
         } catch (SQLException e)
         {
@@ -70,27 +82,26 @@ public class ResultatManager
         return resultater;
     }
 
-    public List<Resultater> getToppTiResultat(int ovelseNr)
+    public OvelseResultat getOvelseResultat(int oktNr, int ovelseNr)
     {
-        List<Resultater> resultater = new ArrayList<>();
-        String sql = "SELECT * FROM Resultat WHERE ovelseNr = '" + ovelseNr + "' ORDER BY belastning DESC LIMIT 10;";
+        String sql = "SELECT navn, sett, repetisjoner, belastning FROM Resultat INNER JOIN Ovelse ON Resultat.ovelseNr = Ovelse.ovelseNr" +
+                " WHERE Resultat.oktNr = " + oktNr + " AND Resultat.ovelseNr = " + ovelseNr + ";";
         try (Statement statement = connection.createStatement())
         {
             ResultSet res = statement.executeQuery(sql);
-            while (res.next())
+            if (res.next())
             {
-                int belastning = res.getInt(1);
-                int repitisjoner = res.getInt(2);
-                int sett = res.getInt(3);
-                int oktNr = res.getInt(4);
-                int ovelseNr2 = res.getInt(5);
-                resultater.add(new Resultater(ovelseNr2, belastning, sett, repitisjoner, oktNr));
+                String navn = res.getString(1);
+                int sett = res.getInt(2);
+                int repitisjoner = res.getInt(3);
+                int belastning = res.getInt(4);
+                return new OvelseResultat(oktNr, ovelseNr, navn, sett, repitisjoner, belastning);
             }
         } catch (SQLException e)
         {
             e.printStackTrace();
         }
-        return resultater;
+        return null;
     }
 
 
