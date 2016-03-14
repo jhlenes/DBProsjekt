@@ -1,28 +1,12 @@
 package gui;
 
 import database.Database;
-import treningsdagbok.Maal;
-import treningsdagbok.Ovelse;
-
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.geometry.HPos;
-import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
-import treningsdagbok.Treningsokt;
-
-import java.sql.Date;
-import java.sql.Time;
-import java.util.List;
 
 public class DBApp extends Application
 {

@@ -53,16 +53,16 @@ public class TreningsoktOvelserPane extends GridPane
         add(label, 0, 0, 3, 1);
 
         // Setup list
-        List<Ovelse> ovelser = database.getTreningsoktManager().getOvelserFor(treningsokt);
-        ObservableList<Ovelse> ovelseObservableList = FXCollections.observableArrayList(ovelser);
-        ListView<Ovelse> ovelseListView = new ListView<>(ovelseObservableList);
-        add(ovelseListView, 0, 1, 3, 4);
-        ovelseListView.setPrefWidth(DBApp.SIZE_X / 2);
+        List<Ovelse> ovelseMedResultater = database.getResultatManager().getOvelserMedResultater(treningsokt.getOktNr());
+        ObservableList<Ovelse> ovelseResultatObservableList = FXCollections.observableArrayList(ovelseMedResultater);
+        ListView<Ovelse> ovelseResultatListView = new ListView<>(ovelseResultatObservableList);
+        add(ovelseResultatListView, 0, 1, 3, 4);
+        ovelseResultatListView.setPrefWidth(DBApp.SIZE_X / 2);
 
         // Setup buttons
-        Button buttonLeggTil = new Button("Legg til");
+        Button buttonLeggTil = new Button("Legg til resultat");
         buttonLeggTil.setOnAction(e -> {
-            Ovelse ovelse = ovelseListView.getSelectionModel().getSelectedItem();
+            Ovelse ovelse = ovelseResultatListView.getSelectionModel().getSelectedItem();
             Scene scene = new Scene(new AddResultatPane(database, window, main, tabPane, treningsokt, ovelse), DBApp.SIZE_X, DBApp.SIZE_Y);
             window.setScene(scene);
         });

@@ -86,7 +86,7 @@ public class OvelsePane extends GridPane
             window.setScene(scene);
         });
 
-        Button buttonResultat = new Button("Resultater");
+        Button buttonResultat = new Button("Resultat");
         buttonResultat.setOnAction(e -> {
             Ovelse ovelse = ovelseListView.getSelectionModel().getSelectedItem();
             Scene scene = new Scene(new ResultatPane(database, window, main, tabPane, ovelse), DBApp.SIZE_X, DBApp.SIZE_Y);

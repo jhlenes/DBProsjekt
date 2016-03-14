@@ -48,7 +48,7 @@ public class AddResultatPane extends GridPane
         setPadding(new Insets(25, 25, 25, 25));
 
         // Label on top
-        Label label = new Label(ovelse.getNavn() + ":");
+        Label label = new Label("Resultat for " + ovelse.getNavn() + ":");
         label.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
         add(label, 0, 0, 2, 1);
 

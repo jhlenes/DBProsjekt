@@ -6,84 +6,67 @@ import java.sql.Time;
 /**
  * Created by ArntKristoffer on 07.03.2016.
  */
-public class Maal {
+public class Maal
+{
     private int maalNr;
-    private int ovelseNr;
     private Date dato;
     private Time tidspunkt;
     private int sett;
     private int repetisjoner;
     private int belastning;
+    private int ovelseNr;
 
-    public Maal(int maalNr, int ovelseNr, Date dato, Time tidspunkt, int sett, int repetisjoner, int belastning) {
+    public Maal(int maalNr, Date dato, Time tidspunkt, int sett, int repetisjoner, int belastning, int ovelseNr)
+    {
         this.maalNr = maalNr;
-        this.ovelseNr = ovelseNr;
         this.dato = dato;
         this.tidspunkt = tidspunkt;
         this.sett = sett;
         this.repetisjoner = repetisjoner;
         this.belastning = belastning;
+        this.ovelseNr = ovelseNr;
     }
 
-    public Date getDato() {
-        return dato;
-    }
-
-    public int getBelastning() {
-        return belastning;
-    }
-
-    public int getMaalNr() {
+    public int getMaalNr()
+    {
         return maalNr;
     }
 
-    public int getOvelseNr() {
-        return ovelseNr;
+    public Date getDato()
+    {
+        return dato;
     }
 
-    public int getRepetisjoner() {
-        return repetisjoner;
-    }
-
-    public int getSett() {
-        return sett;
-    }
-
-    public void setMaalNr(int maalNr) {
-        this.maalNr = maalNr;
-    }
-
-    public void setOvelseNr(int ovelseNr) {
-        this.ovelseNr = ovelseNr;
-    }
-
-    public void setDato(Date dato) {
-        this.dato = dato;
-    }
-
-    public Time getTidspunkt() {
+    public Time getTidspunkt()
+    {
         return tidspunkt;
     }
 
-    public void setTidspunkt(Time tidspunkt) {
-        this.tidspunkt = tidspunkt;
+    public int getSett()
+    {
+        return sett;
     }
 
-    public void setSett(int sett) {
-        this.sett = sett;
+    public int getRepetisjoner()
+    {
+        return repetisjoner;
     }
 
-    public void setRepetisjoner(int repetisjoner) {
-        this.repetisjoner = repetisjoner;
+    public int getBelastning()
+    {
+        return belastning;
     }
 
-    public void setBelastning(int belastning) {
-        this.belastning = belastning;
+    public int getOvelseNr()
+    {
+        return ovelseNr;
+
     }
 
     @Override
     public String toString()
     {
-        return dato + ": " + sett + " x " + repetisjoner + " x " + belastning + " kg";
+        return getDato() + ": " + getSett() + " x " + getRepetisjoner() + " x " + getBelastning() + " kg";
     }
+
 }
