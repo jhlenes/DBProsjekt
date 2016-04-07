@@ -70,7 +70,8 @@ public class ResultatManager
     {
         List<Ovelse> ovelseMedResultater = new ArrayList<>();
         String sql = "SELECT Ovelse.ovelseNr, navn, sett, repetisjoner, belastning FROM Ovelse LEFT OUTER JOIN Resultat " +
-                "ON Resultat.ovelseNr = Ovelse.ovelseNr AND Resultat.oktNr = " + oktNr + ";";
+                "ON Resultat.ovelseNr = Ovelse.ovelseNr AND Resultat.oktNr = " + oktNr + " " +
+                "WHERE Ovelse.ovelseNr IN (SELECT ovelseNr FROM Treningsokt_har_ovelse WHERE oktNr = " + oktNr + ");";
         try (Statement statement = connection.createStatement())
         {
             ResultSet res = statement.executeQuery(sql);
